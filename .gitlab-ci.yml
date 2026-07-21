@@ -1,0 +1,84 @@
+stages:
+  - lint
+  - test
+  - build
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+# ---------- LINT ----------
+
+lint-backend:
+  stage: lint
+  image: python:3.10-slim
+  script:
+    - pip install ruff
+    - ruff check backend
+
+lint-frontend:
+  stage: lint
+  image: node:20-alpine
+  script:
+    - cd frontend
+    - npm ci
+    - npm run lint
+
+# ---------- TESTS ----------
+
+test-backend:
+  stage: test
+  image: python:3.10-slim
+  services:
+    - name: pgvector/pgvector:pg15
+      alias: postgres
+  variables:
+    POSTGRES_USER: test
+    POSTGRES_PASSWORD: test
+    POSTGRES_DB: test_db
+    DATABASE_URL: postgresql://test:test@postgres:5432/test_db
+  script:
+    - cd backend
+    - pip install -r requirements.txt
+    - pip install pytest coverage
+    - coverage run -m pytest
+    - coverage report --fail-under=70
+  coverage: '/TOTAL.*\s+(\d+%)$/'
+
+test-frontend:
+  stage: test
+  image: node:20-alpine
+  script:
+    - cd frontend
+    - npm ci
+    - npm run test -- --ci
+
+# ---------- BUILD (images Docker, poussées dans le Container Registry GitLab) ----------
+
+build-backend:
+  stage: build
+  image: docker:24
+  services:
+    - docker:24-dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - docker build -t "$CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA" ./backend
+    - docker push "$CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA"
+  only:
+    - main
+    - merge_requests
+
+build-frontend:
+  stage: build
+  image: docker:24
+  services:
+    - docker:24-dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - docker build -t "$CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA" ./frontend
+    - docker push "$CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA"
+  only:
+    - main
+    - merge_requests
+
+# Un stage "deploy" sera ajouté dès que le VPS/hébergement sera disponible
+# (ex: ssh + docker compose pull && docker compose up -d sur le serveur cible).
