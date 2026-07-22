@@ -50,7 +50,7 @@ test-frontend:
   script:
     - cd frontend
     - npm ci
-    - npm run test -- --ci
+    - npm run test
 
 # ---------- BUILD (images Docker, poussées dans le Container Registry GitLab) ----------
 
