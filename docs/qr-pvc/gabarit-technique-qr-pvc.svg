@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="91.6mm" height="60mm" viewBox="0 0 916 600" role="img" aria-labelledby="title desc">
+  <title id="title">Gabarit technique QR PVC ALTIORA</title>
+  <desc id="desc">Carte PVC 85,6 par 54 millimètres avec fond perdu de 3 millimètres, zone sûre et réservation QR.</desc>
+  <rect width="916" height="600" fill="#f7f7f7"/>
+  <rect x="30" y="30" width="856" height="540" fill="#ffffff" stroke="#c62828" stroke-width="2" stroke-dasharray="10 8"/>
+  <rect x="60" y="60" width="796" height="480" fill="none" stroke="#1565c0" stroke-width="2" stroke-dasharray="8 6"/>
+  <rect x="610" y="160" width="200" height="200" fill="#ffffff" stroke="#111111" stroke-width="4"/>
+  <rect x="630" y="180" width="160" height="160" fill="none" stroke="#555555" stroke-width="2" stroke-dasharray="6 5"/>
+  <circle cx="710" cy="260" r="28" fill="#eeeeee" stroke="#555555" stroke-width="2"/>
+  <text x="710" y="265" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#333333">LOGO</text>
+  <text x="710" y="385" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#111111">ZONE QR RÉSERVÉE</text>
+  <text x="710" y="408" font-family="Arial, sans-serif" font-size="13" text-anchor="middle" fill="#333333">zone silencieuse ≥ 4 modules</text>
+  <text x="85" y="105" font-family="Arial, sans-serif" font-size="24" fill="#0b1f3a">ALTIORA — gabarit technique QR PVC</text>
+  <text x="85" y="140" font-family="Arial, sans-serif" font-size="16" fill="#333333">Informations facultatives — uniquement dans la zone sûre</text>
+  <text x="458" y="23" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#c62828">Format avec fond perdu : 91,6 × 60 mm</text>
+  <text x="458" y="590" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#c62828">Fond perdu : 3 mm sur chaque côté</text>
+  <text x="42" y="300" font-family="Arial, sans-serif" font-size="14" text-anchor="middle" fill="#c62828" transform="rotate(-90 42 300)">Format fini : 85,6 × 54 mm</text>
+  <text x="73" y="520" font-family="Arial, sans-serif" font-size="14" fill="#1565c0">Zone sûre proposée : 3 mm à l’intérieur du format fini</text>
+  <line x1="30" y1="30" x2="0" y2="0" stroke="#c62828" stroke-width="2"/>
+  <line x1="886" y1="30" x2="916" y2="0" stroke="#c62828" stroke-width="2"/>
+  <line x1="30" y1="570" x2="0" y2="600" stroke="#c62828" stroke-width="2"/>
+  <line x1="886" y1="570" x2="916" y2="600" stroke="#c62828" stroke-width="2"/>
+</svg>
