@@ -30,3 +30,9 @@ docker compose up --build
 - PostgreSQL : localhost:5432
 
 Copier `.env.example` en `.env` et compléter les valeurs avant de lancer le projet.
+
+### Convention de gestion des variables d'environnement
+
+- Le `.env` à la racine du repo est la **source unique de vérité** pour Docker Compose (toutes les variables, y compris `NEXT_PUBLIC_API_URL`).
+- Le `.env.local` dans `frontend/` sert uniquement si quelqu'un lance `npm run dev` en dehors de Docker (dev sans conteneur) — dans ce cas, copier manuellement les variables nécessaires depuis le `.env` racine.
+- Le `.env.example` à la racine reste le seul gabarit officiel à maintenir à jour.
