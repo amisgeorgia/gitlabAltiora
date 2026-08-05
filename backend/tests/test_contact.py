@@ -1,9 +1,8 @@
 import pytest
-from fastapi.testclient import TestClient
-
 from app.db.session import get_db
 from app.main import app
 from app.models import ContactRequest
+from fastapi.testclient import TestClient
 
 client = TestClient(app)
 
