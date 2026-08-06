@@ -17,7 +17,7 @@ lint-backend:
 
 lint-frontend:
   stage: lint
-  image: node:20-alpine
+  image: node:22-alpine
   script:
     - cd frontend
     - npm ci
@@ -47,7 +47,7 @@ test-backend:
 
 test-frontend:
   stage: test
-  image: node:20-alpine
+  image: node:22-alpine
   script:
     - cd frontend
     - npm ci
