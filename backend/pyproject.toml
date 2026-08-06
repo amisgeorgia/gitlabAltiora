@@ -1,0 +1,6 @@
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+ignore = ["EXE002", "B008", "E501"]
+select = ["E", "F", "I", "W"]

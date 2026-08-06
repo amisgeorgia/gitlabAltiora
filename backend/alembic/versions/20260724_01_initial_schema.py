@@ -1,9 +1,10 @@
 """Create the initial PostgreSQL and pgvector schema."""
 
 import sqlalchemy as sa
-from alembic import op
 from pgvector.sqlalchemy import Vector
 from sqlalchemy.dialects import postgresql
+
+from alembic import op
 
 revision = "20260724_01"
 down_revision = None
