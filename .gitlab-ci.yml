@@ -40,7 +40,7 @@ test-backend:
     - cd backend
     - pip install -r requirements.txt
     - pip install pytest coverage
-    - alembic upgrade head 
+    - alembic upgrade head
     - coverage run -m pytest
     - coverage report --fail-under=70
   coverage: '/TOTAL.*\s+(\d+%)$/'
@@ -53,7 +53,7 @@ test-frontend:
     - npm ci
     - npm run test
 
-# ---------- BUILD (images Docker, poussées dans le Container Registry GitLab) ----------
+# ---------- BUILD ----------
 
 build-backend:
   stage: build
@@ -82,4 +82,5 @@ build-frontend:
     - merge_requests
 
 # Un stage "deploy" sera ajouté dès que le VPS/hébergement sera disponible
-# (ex: ssh + docker compose pull && docker compose up -d sur le serveur cible).
+# Exemple :
+# ssh + docker compose pull && docker compose up -d
