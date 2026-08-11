@@ -1,5 +1,6 @@
 import json
 import uuid
+from collections.abc import Generator
 
 import pytest
 from fastapi.testclient import TestClient
@@ -38,7 +39,7 @@ class FakeSession:
 
 
 @pytest.fixture(autouse=True)
-def fake_session() -> FakeSession:
+def fake_session() -> Generator[FakeSession, None, None]:
     session = FakeSession()
 
     def override_get_db() -> FakeSession:
