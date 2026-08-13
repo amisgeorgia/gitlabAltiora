@@ -57,14 +57,14 @@ lighthouse:
   stage: test
   image: node:22-alpine
   before_script:
-    - apk add --no-cache chromium
+    - apk add --no-cache chromium curl
     - npm install -g lighthouse
   script:
     - cd frontend
     - npm ci --cache .npm --prefer-offline
     - npm run build
     - npm start &
-    - sleep 10
+    - sleep 15
     - curl -f http://localhost:3000 || exit 1
     - export CHROME_PATH=/usr/bin/chromium-browser
     - lighthouse http://localhost:3000 --output=json,html --output-path=./lighthouse-report --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
