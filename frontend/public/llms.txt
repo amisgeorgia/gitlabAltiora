@@ -1,0 +1,16 @@
+# ALTIORA CONNECT
+
+## Description
+ALTIORA CONNECT est une plateforme de conseil, de formation et de solutions numériques.
+
+## Contact
+- Email: contact@altiora-connect.fr
+- Site: https://altiora-connect.fr
+
+## Pages principales
+- / : Accueil
+- /a-propos : À propos
+- /expertises : Expertises
+- /formations : Formations
+- /actualites : Actualités
+- /contact : Contact

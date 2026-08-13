@@ -13,3 +13,5 @@ venv/
 
 # OS
 .DS_Store
+lighthouse-report.html
+lighthouse-report.json
