@@ -67,7 +67,9 @@ lighthouse:
     - sleep 15
     - curl -f http://localhost:3000 || exit 1
     - export CHROME_PATH=/usr/bin/chromium
-    - lighthouse http://localhost:3000 --output=json,html --output-path=./lighthouse-report --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
+    - lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
+    - lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
+    - node ../scripts/check-lighthouse-score.js ./lighthouse-report.json
     - node ../scripts/check-lighthouse-score.js ./lighthouse-report.json
   artifacts:
     when: always
