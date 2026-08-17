@@ -13,11 +13,11 @@ export function ComingSoonPage() {
   return (
     <>
       {/* Elegant Startup Preloader */}
-      <Preloader onComplete={() => setLoaded(true)} minDuration={1600} />
+      <Preloader onComplete={() => setLoaded(true)} />
 
       <div
-        className={`relative min-h-screen lg:h-screen w-screen overflow-x-hidden lg:overflow-hidden bg-[#f8fafc] flex flex-col items-center justify-center p-3 sm:p-6 transition-opacity duration-1000 ease-out ${
-          loaded ? "opacity-100" : "opacity-0"
+        className={`relative min-h-screen lg:h-screen w-screen overflow-x-hidden lg:overflow-hidden bg-[#f8fafc] flex flex-col items-center justify-center p-3 sm:p-6 transition-all duration-1000 ease-out ${
+          loaded ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-2 pointer-events-none"
         }`}
       >
         {/* Background Ambient Glowing Lights */}
@@ -63,7 +63,7 @@ export function ComingSoonPage() {
           <div className="relative flex max-h-[92vh] w-full flex-1 items-center justify-center overflow-hidden">
             <div className="animate-float-gentle transition-transform duration-700 ease-out">
               <Image
-                src="/images/comming1-web.png"
+                src="/images/comming1-web.webp"
                 alt="Site ALTIORA PREST en cours de préparation"
                 width={1920}
                 height={1080}
@@ -192,7 +192,7 @@ export function ComingSoonPage() {
           <div className="relative flex flex-1 w-full items-center justify-end overflow-hidden -mr-6 sm:-mr-12">
             <div className="animate-float-mobile">
               <Image
-                src="/images/comming-mobile.png"
+                src="/images/comming-mobile.webp"
                 alt="Site ALTIORA PREST mobile en cours de préparation"
                 width={1080}
                 height={1920}

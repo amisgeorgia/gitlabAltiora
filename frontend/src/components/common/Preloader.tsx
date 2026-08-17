@@ -1,97 +1,85 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 interface PreloaderProps {
   onComplete?: () => void;
-  minDuration?: number; // Duration in ms
 }
 
-export function Preloader({ onComplete, minDuration = 1800 }: PreloaderProps) {
-  const [progress, setProgress] = useState(0);
+export function Preloader({ onComplete }: PreloaderProps) {
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
-    const startTime = Date.now();
-    const interval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const rawProgress = Math.min(100, Math.floor((elapsed / minDuration) * 100));
+    const fadeTimer = window.setTimeout(() => {
+      setIsFadingOut(true);
+    }, 300);
 
-      setProgress(rawProgress);
+    const removeTimer = window.setTimeout(() => {
+      setIsDone(true);
+      onComplete?.();
+    }, 550);
 
-      if (rawProgress >= 100) {
-        clearInterval(interval);
-        setTimeout(() => {
-          setIsFadingOut(true);
-          setTimeout(() => {
-            setIsDone(true);
-            if (onComplete) onComplete();
-          }, 600); // fade duration
-        }, 200);
-      }
-    }, 20);
-
-    return () => clearInterval(interval);
-  }, [minDuration, onComplete]);
+    return () => {
+      window.clearTimeout(fadeTimer);
+      window.clearTimeout(removeTimer);
+    };
+  }, [onComplete]);
 
   if (isDone) return null;
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-white text-[#0F223D] transition-all duration-700 ease-in-out ${
-        isFadingOut ? "opacity-0 scale-105 pointer-events-none" : "opacity-100 scale-100"
-      }`}
+      aria-hidden="true"
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-white text-[#0F223D]
+        transition-opacity duration-200 ease-out
+        ${
+          isFadingOut
+            ? "pointer-events-none opacity-0"
+            : "opacity-100"
+        }`}
     >
-      {/* Background glowing ambience */}
-      <div className="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full bg-[#C59B27]/10 blur-3xl animate-pulse-glow" />
-      <div className="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-[#0F223D]/5 blur-3xl animate-pulse-glow" />
-
-      {/* Main Content */}
       <div className="relative z-10 flex flex-col items-center gap-6 px-4">
-        {/* Logo Container with Golden Halo */}
+        {/* Logo */}
         <div className="relative flex items-center justify-center">
-          {/* Animated Golden Ring */}
-          <div className="absolute -inset-3 rounded-2xl border border-[#C59B27]/30 animate-spin [animation-duration:8s]" />
-          <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-[#C59B27]/20 to-transparent blur-sm" />
+          <div className="absolute -inset-3 rounded-2xl border border-[#C59B27]/30" />
 
-          {/* Logo Card */}
-          <div className="relative flex h-24 w-24 sm:h-28 sm:w-28 items-center justify-center rounded-2xl bg-white p-3 shadow-xl border border-slate-100">
+          <div className="relative flex h-24 w-24 items-center justify-center rounded-2xl border border-slate-100 bg-white p-3 shadow-md sm:h-28 sm:w-28">
             <Image
-              src="/images/logo.png"
-              alt="ALTIORA Logo"
+              src="/images/logo.webp"
+              alt="ALTIORA CONNECT"
               width={90}
               height={90}
+              sizes="90px"
               priority
-              className="object-contain drop-shadow-sm"
+              className="object-contain"
             />
           </div>
         </div>
 
-        {/* Brand Name & Tagline */}
+        {/* Brand */}
         <div className="flex flex-col items-center text-center">
-          <h2 className="text-xl sm:text-2xl font-bold tracking-wider text-[#0F223D]">
-            ALTIORA <span className="text-[#C59B27]">CONNECT</span>
-          </h2>
-          <p className="mt-1 text-xs sm:text-sm font-medium tracking-widest text-[#0F223D]/60 uppercase">
+          <p className="text-xl font-bold tracking-wider text-[#0F223D] sm:text-2xl">
+            ALTIORA{" "}
+            <span className="text-[#C59B27]">
+              CONNECT
+            </span>
+          </p>
+
+          <p className="mt-1 text-xs font-medium uppercase tracking-widest text-[#0F223D]/60 sm:text-sm">
             Solutions & Performance
           </p>
         </div>
 
-        {/* Progress Bar & Counter */}
-        <div className="w-56 sm:w-64 flex flex-col items-center gap-2 mt-2">
-          <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-slate-100 border border-slate-200/80">
-            <div
-              className="h-full bg-gradient-to-r from-[#C59B27] via-[#e5b942] to-[#C59B27] rounded-full transition-all duration-100 ease-out shadow-[0_0_10px_rgba(197,155,39,0.5)]"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          <div className="flex w-full justify-between items-center text-[11px] font-medium text-slate-500">
-            <span className="animate-pulse">Chargement en cours...</span>
-            <span className="font-mono text-[#C59B27] font-semibold">{progress}%</span>
-          </div>
+        {/* Loading indicator */}
+        <div className="mt-2 h-1.5 w-56 overflow-hidden rounded-full bg-slate-100 sm:w-64">
+          <div className="h-full w-full origin-left animate-pulse rounded-full bg-[#C59B27]" />
         </div>
+
+        <span className="text-[11px] font-medium text-slate-500">
+          Chargement...
+        </span>
       </div>
     </div>
   );
