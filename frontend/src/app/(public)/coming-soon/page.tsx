@@ -6,7 +6,6 @@ export const metadata = {
   description: "Notre nouveau site web ALTIORA PREST arrive bientôt.",
 };
 
-export default function Home() {
+export default function PublicComingSoon() {
   return <ComingSoonPage />;
 }
-
