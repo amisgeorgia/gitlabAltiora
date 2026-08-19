@@ -1,25 +1,13 @@
-"use client";
-
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
-import { Preloader } from "@/components/common/Preloader";
 
 export function ComingSoonPage() {
-  const [loaded, setLoaded] = useState(false);
   const whatsappNumber = "2613407106333";
   const phoneDisplay = "034 07 10 63 33";
   const emailAddress = "contact@altioraconnect.mg";
 
   return (
-    <>
-      {/* Elegant Startup Preloader */}
-      <Preloader onComplete={() => setLoaded(true)} />
-
-      <div
-        className={`relative min-h-screen lg:h-screen w-screen overflow-x-hidden lg:overflow-hidden bg-[#f8fafc] flex flex-col items-center justify-center p-3 sm:p-6 transition-all duration-1000 ease-out ${
-          loaded ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-2 pointer-events-none"
-        }`}
-      >
+    <div className="relative min-h-screen lg:h-screen w-screen overflow-x-hidden lg:overflow-hidden bg-[#f8fafc] flex flex-col items-center justify-center p-3 sm:p-6">
         {/* Background Ambient Glowing Lights */}
         <div className="pointer-events-none absolute -top-40 -left-40 h-[500px] w-[500px] rounded-full bg-[#C59B27]/10 blur-[100px] animate-pulse-glow" />
         <div className="pointer-events-none absolute -bottom-40 -right-40 h-[500px] w-[500px] rounded-full bg-[#0F223D]/10 blur-[120px] animate-pulse-glow" />
@@ -203,7 +191,6 @@ export function ComingSoonPage() {
           </div>
         </div>
       </div>
-    </>
   );
 }
 
