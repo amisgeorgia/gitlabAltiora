@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime
+from enum import Enum as PythonEnum
 
 from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
@@ -20,6 +21,10 @@ from app.db.base import Base
 from app.models.enums import ContactStatus, ContentType, MessageRole, QrType, UserRole
 
 
+def enum_values(enum_class: type[PythonEnum]) -> list[str]:
+    return [member.value for member in enum_class]
+
+
 class TimestampMixin:
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False
@@ -32,7 +37,9 @@ class User(TimestampMixin, Base):
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
-    role: Mapped[UserRole] = mapped_column(Enum(UserRole, name="user_role"), nullable=False)
+    role: Mapped[UserRole] = mapped_column(
+        Enum(UserRole, name="user_role", values_callable=enum_values), nullable=False
+    )
 
     contents: Mapped[list["Content"]] = relationship(back_populates="created_by")
     qr_codes: Mapped[list["QrCode"]] = relationship(back_populates="created_by")
@@ -42,7 +49,9 @@ class Content(TimestampMixin, Base):
     __tablename__ = "contents"
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    type: Mapped[ContentType] = mapped_column(Enum(ContentType, name="content_type"), nullable=False)
+    type: Mapped[ContentType] = mapped_column(
+        Enum(ContentType, name="content_type", values_callable=enum_values), nullable=False
+    )
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     slug: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
     body: Mapped[str | None] = mapped_column(Text)
@@ -63,7 +72,9 @@ class ContactRequest(TimestampMixin, Base):
     subject: Mapped[str | None] = mapped_column(String(255))
     message: Mapped[str] = mapped_column(Text, nullable=False)
     status: Mapped[ContactStatus] = mapped_column(
-        Enum(ContactStatus, name="contact_status"), nullable=False, default=ContactStatus.NOUVEAU
+        Enum(ContactStatus, name="contact_status", values_callable=enum_values),
+        nullable=False,
+        default=ContactStatus.NOUVEAU,
     )
 
 
@@ -73,7 +84,9 @@ class QrCode(TimestampMixin, Base):
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     code: Mapped[str] = mapped_column(String(64), unique=True, nullable=False)
     target_url: Mapped[str] = mapped_column(String(2048), nullable=False)
-    qr_type: Mapped[QrType] = mapped_column(Enum(QrType, name="qr_type"), nullable=False)
+    qr_type: Mapped[QrType] = mapped_column(
+        Enum(QrType, name="qr_type", values_callable=enum_values), nullable=False
+    )
     campaign: Mapped[str | None] = mapped_column(String(255))
     utm_source: Mapped[str | None] = mapped_column(String(255))
     utm_medium: Mapped[str | None] = mapped_column(String(255))
@@ -139,7 +152,9 @@ class Message(TimestampMixin, Base):
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     conversation_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("conversations.id"), nullable=False)
-    role: Mapped[MessageRole] = mapped_column(Enum(MessageRole, name="message_role"), nullable=False)
+    role: Mapped[MessageRole] = mapped_column(
+        Enum(MessageRole, name="message_role", values_callable=enum_values), nullable=False
+    )
     content: Mapped[str] = mapped_column(Text, nullable=False)
 
     conversation: Mapped[Conversation] = relationship(back_populates="messages")
