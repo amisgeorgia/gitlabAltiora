@@ -1,21 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ToastProvider } from "@/providers/ToastProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const manrope = localFont({
+  src: "../../public/fonts/Manrope-VariableFont_wght.ttf",
+  variable: "--font-manrope",
   display: "swap",
+  preload: false,
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const baiJamjuree = localFont({
+  src: "../../public/fonts/BaiJamjuree-SemiBold.ttf",
+  variable: "--font-bai-jamjuree",
   display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -36,9 +38,9 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${manrope.variable} ${baiJamjuree.variable} h-full antialiased font-sans`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col font-sans">
         <QueryProvider>
           <AuthProvider>
             <ThemeProvider>
