@@ -1,8 +1,24 @@
-/* Global CSS Variables for ALTIORA CONNECT */
+/* Global CSS Variables for ALTIORA CONNECT Palette */
 :root {
-  --primary-color: #0f172a;
-  --secondary-color: #0284c7;
-  --accent-color: #38bdf8;
-  --bg-color: #ffffff;
-  --text-color: #1e293b;
+  /* Palette Principale */
+  --color-primary: #0B1F4D;
+  --color-brand-gold: #D4AF37;
+  --color-medium-bleu: #0B3D7A;
+  --color-dark-bleu: #06132F;
+  --color-dark-gold: #B88A1A;
+  --color-neutral-gray: #5D5D5D;
+  --color-accent-red: #DF3434;
+
+  /* Typographie */
+  --color-titres: #131313;
+  --color-paragraphes: #5D5D5D;
+  --color-secondes-titres: #0B1F4D;
+  --color-tertiaires: #D4AF37;
+
+  /* Liens et Boutons */
+  --color-link: #1d70b8;
+  --color-link-hover: #003078;
+  --color-btn-normal: #0B1F4D;
+  --color-btn-survol: #06132F;
+  --color-btn-secondaire: #DCDCDC;
 }
