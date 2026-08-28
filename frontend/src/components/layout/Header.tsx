@@ -41,11 +41,6 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [mobileMenuOpen]);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
-
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-6 lg:px-8 pt-3 sm:pt-6 pb-2 transition-all duration-300 ease-in-out ${
@@ -63,6 +58,7 @@ export function Header() {
           {/* Logo ALTIORA PREST */}
           <Link
             href="/"
+            onClick={() => setMobileMenuOpen(false)}
             className="flex items-center shrink-0 transition-opacity hover:opacity-90"
             aria-label="Accueil ALTIORA PREST"
           >
