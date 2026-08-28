@@ -17,10 +17,8 @@ export default function Home() {
       {/* ScrollReveal Client Initializer */}
       <ScrollRevealInit />
 
-      {/* Floating Header */}
-      <div className="absolute top-0 left-0 right-0 z-50">
-        <Header />
-      </div>
+      {/* Header with smart scroll */}
+      <Header />
 
       {/* Main Content */}
       <main className="flex-1">
