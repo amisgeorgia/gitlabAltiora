@@ -8,9 +8,9 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-white overflow-x-clip">
       <Header />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 pt-20 sm:pt-24 md:pt-26">{children}</main>
       {/* Emplacement pour le Chatbot global */}
       <Footer />
     </div>

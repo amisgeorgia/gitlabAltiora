@@ -83,7 +83,7 @@ export function TestimonialsSection() {
   }, [isPaused]);
 
   return (
-    <section className="relative w-full bg-white py-16 sm:py-20 lg:py-24 overflow-hidden">
+    <section className="relative w-full bg-white py-14 sm:py-18 lg:py-24 overflow-hidden">
       <div className="w-full">
         
         {/* Section Header */}

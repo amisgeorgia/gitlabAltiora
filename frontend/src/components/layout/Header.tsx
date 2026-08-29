@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -9,14 +9,56 @@ import { publicNavigation } from "@/config/navigation";
 export function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Update scrolled state for subtle shadow
+      setIsScrolled(currentScrollY > 20);
+
+      // Keep header visible when mobile menu is open
+      if (mobileMenuOpen) {
+        setIsVisible(true);
+        lastScrollY.current = currentScrollY;
+        return;
+      }
+
+      // Hide when scrolling down past 80px, show when scrolling up
+      if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [mobileMenuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 w-full px-4 sm:px-6 lg:px-8 pt-3 sm:pt-8 pb-2 transition-all duration-300">
-      <div className="mx-auto max-w-[1430px] sr-fade-down">
-        <div className="relative flex items-center justify-between bg-white rounded-full border border-slate-100/90 px-4 sm:px-6 md:px-8 lg:px-10 py-2 sm:py-2.5 md:py-3.5 lg:py-2 shadow-sm">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-6 lg:px-8 pt-3 sm:pt-6 pb-2 transition-all duration-300 ease-in-out ${
+        isVisible
+          ? "translate-y-0 opacity-100 pointer-events-auto"
+          : "-translate-y-full opacity-0 pointer-events-none"
+      }`}
+    >
+      <div className="mx-auto max-w-[1430px]">
+        <div
+          className={`relative flex items-center justify-between bg-white/95 backdrop-blur-md rounded-full border border-slate-100/90 px-4 sm:px-6 md:px-8 lg:px-10 py-2 sm:py-2.5 md:py-3.5 lg:py-2 transition-shadow duration-300 ${
+            isScrolled ? "shadow-md shadow-slate-900/5" : "shadow-sm"
+          }`}
+        >
           {/* Logo ALTIORA PREST */}
           <Link
             href="/"
+            onClick={() => setMobileMenuOpen(false)}
             className="flex items-center shrink-0 transition-opacity hover:opacity-90"
             aria-label="Accueil ALTIORA PREST"
           >
