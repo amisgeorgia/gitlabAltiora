@@ -40,10 +40,10 @@ export function AboutIdentitySection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch">
           
           {/* Card 1: Notre Mission (Light Background) */}
-          <div className="flex flex-col justify-between rounded-[28px] sm:rounded-[36px] bg-white border border-slate-100/90 shadow-[0_15px_40px_rgba(11,31,77,0.04)] p-7 sm:p-10 lg:p-12 transition-all duration-300 hover:shadow-[0_20px_50px_rgba(11,31,77,0.08)] sr-fade-left">
+          <div className="flex flex-col justify-between rounded-[28px] sm:rounded-[36px] bg-white border border-slate-100/90 p-7 sm:p-10 lg:p-12 transition-all duration-300 hover:shadow-[0_20px_50px_rgba(11,31,77,0.08)] sr-fade-left">
             <div>
               {/* Mission Icon Badge */}
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-slate-100/80 flex items-center justify-center text-slate-700 shadow-inner">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-slate-100/80 flex items-center justify-center text-slate-700 ">
                 <Target size={32} strokeWidth={2.2} />
               </div>
 
@@ -68,10 +68,10 @@ export function AboutIdentitySection() {
           </div>
 
           {/* Card 2: Notre Vision (Deep Navy Background) */}
-          <div className="flex flex-col justify-between rounded-[28px] sm:rounded-[36px] bg-[#071638] shadow-2xl shadow-[#0B1F4D]/15 p-7 sm:p-10 lg:p-12 text-white transition-all duration-300 hover:shadow-[#0B1F4D]/25 sr-fade-right">
+          <div className="flex flex-col justify-between rounded-[28px] sm:rounded-[36px] bg-[#071638]  p-7 sm:p-10 lg:p-12 text-white transition-all duration-300 hover:shadow-[#0B1F4D]/25 sr-fade-right">
             <div>
               {/* Vision Icon Badge */}
-              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center text-[#071638] shadow-md">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center text-[#071638]">
                 <Rocket size={28} strokeWidth={2.2} className="text-[#071638] -rotate-12" />
               </div>
 
