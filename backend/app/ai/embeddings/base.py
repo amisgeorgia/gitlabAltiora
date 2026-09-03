@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class EmbeddingService(ABC):
     """Interface commune pour les fournisseurs d'embeddings."""
 

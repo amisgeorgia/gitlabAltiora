@@ -1,4 +1,6 @@
 from pathlib import Path
+
+
 class PromptManager:
     """Gère les templates utilisés pour construire les prompts."""
 

@@ -1,5 +1,7 @@
 from loguru import logger
+
 from app.ai.ingestion.loaders.text_loader import TextLoader
+
 SOURCE = "scripts/data/altiora_prest_test.txt"
 def main() -> None:
     logger.info("TEST TEXT LOADER")

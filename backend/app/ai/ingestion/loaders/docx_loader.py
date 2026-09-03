@@ -2,6 +2,7 @@ from pathlib import Path
 
 from docx import Document
 
+
 class DOCXLoader:
     """Charge le contenu textuel d'un fichier DOCX."""
 

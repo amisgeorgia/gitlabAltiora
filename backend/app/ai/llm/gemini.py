@@ -1,7 +1,9 @@
 from google import genai
 from google.genai import errors
+
 from app.ai.llm.base import LLMProvider
 from app.core.config import get_gemini_api_key, get_gemini_model
+
 
 class GeminiLLM(LLMProvider):
     """Fournisseur LLM utilisant Gemini."""

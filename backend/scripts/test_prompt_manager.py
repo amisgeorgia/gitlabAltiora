@@ -1,5 +1,7 @@
 from loguru import logger
+
 from app.ai.prompts.prompt_manager import PromptManager
+
 
 def main() -> None:
     logger.info("TEST PROMPT MANAGER")

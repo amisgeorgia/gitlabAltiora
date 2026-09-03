@@ -1,5 +1,8 @@
 from __future__ import annotations
+
 import re
+
+
 class TextCleaner:
     """Nettoie et normalise le texte extrait d'un document."""
 

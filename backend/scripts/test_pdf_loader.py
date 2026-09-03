@@ -2,7 +2,6 @@ from loguru import logger
 
 from app.ai.ingestion.loaders.pdf_loader import PDFLoader
 
-
 SOURCE = "scripts/data/altiora_prest_test.pdf"
 
 

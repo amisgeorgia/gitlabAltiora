@@ -7,14 +7,16 @@ from sqlalchemy.orm import Session
 
 from app.ai.embeddings.base import EmbeddingService
 from app.ai.embeddings.embedding_service import VoyageEmbeddingService
-from app.ai.ingestion.cleaner import TextCleaner
 from app.ai.ingestion.chunker import TextChunker
+from app.ai.ingestion.cleaner import TextCleaner
 from app.ai.ingestion.loaders.docx_loader import DOCXLoader
 from app.ai.ingestion.loaders.pdf_loader import PDFLoader
 from app.ai.ingestion.loaders.text_loader import TextLoader
 from app.ai.vector_store.pgvector_store import PgVectorStore
 from app.db.session import get_session_factory
 from app.models import KnowledgeChunk, KnowledgeDocument
+
+
 class IngestionPipeline:
     """Pipeline complet d'ingestion des documents."""
 

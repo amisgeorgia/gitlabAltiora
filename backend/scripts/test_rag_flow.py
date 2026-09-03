@@ -1,8 +1,10 @@
 from loguru import logger
+
 from app.ai.llm.gemini import GeminiLLM
 from app.ai.prompts.prompt_manager import PromptManager
 from app.ai.retrieval.context_builder import ContextBuilder
 from app.ai.retrieval.retriever import Retriever
+
 
 def main() -> None:
     logger.info("TEST RAG FLOW")

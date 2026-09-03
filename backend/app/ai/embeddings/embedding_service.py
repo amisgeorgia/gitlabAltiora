@@ -4,7 +4,9 @@ from app.ai.embeddings.base import EmbeddingService
 from app.core.config import (
     get_embedding_dimension,
     get_embedding_model,
-    get_voyage_api_key,)
+    get_voyage_api_key,
+)
+
 
 class VoyageEmbeddingService(EmbeddingService):
     """Generate embeddings with Voyage AI."""

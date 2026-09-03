@@ -1,4 +1,5 @@
 from loguru import logger
+
 from app.ai.ingestion.chunker import TextChunker
 
 TEXT = """

@@ -1,7 +1,10 @@
 from __future__ import annotations
+
 import re
 from dataclasses import dataclass
 from typing import Iterable
+
+
 @dataclass
 class TextChunk:
     """Représente un morceau de texte issu d'un document."""

@@ -1,5 +1,6 @@
 from app.models.models import KnowledgeChunk
 
+
 class ContextBuilder:
     """Construit le contexte utilisé par le modèle à partir des chunks retrouvés."""
 

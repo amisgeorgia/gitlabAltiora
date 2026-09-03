@@ -1,5 +1,7 @@
 from loguru import logger
+
 from app.ai.ingestion.pipeline import IngestionPipeline
+
 DOCUMENT = "scripts/data/altiora_prest_test.docx"
 
 def main() -> None:
@@ -18,7 +20,7 @@ def main() -> None:
         status="published",
     )
 
-    print(f"\nDocument créé")
+    print("\nDocument créé")
     print(f"ID     : {document.id}")
     print(f"Titre  : {document.title}")
     print(f"Source : {document.source_url}")

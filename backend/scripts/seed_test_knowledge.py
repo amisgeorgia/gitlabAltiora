@@ -6,7 +6,6 @@ from app.ai.embeddings.embedding_service import VoyageEmbeddingService
 from app.db.session import get_session_factory
 from app.models import KnowledgeChunk, KnowledgeDocument
 
-
 DOCUMENT_TITLE = "ALTIORA PREST - Nos expertises"
 
 DOCUMENT_CONTENT = """

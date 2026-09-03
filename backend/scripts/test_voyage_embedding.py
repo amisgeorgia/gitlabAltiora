@@ -1,4 +1,6 @@
 from app.ai.embeddings.embedding_service import VoyageEmbeddingService
+
+
 def main() -> None:
     service = VoyageEmbeddingService()
 

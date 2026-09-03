@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class LLMProvider(ABC):
     """Interface commune pour les fournisseurs de modèles de langage."""
 

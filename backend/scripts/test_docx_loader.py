@@ -1,4 +1,5 @@
 from loguru import logger
+
 from app.ai.ingestion.loaders.docx_loader import DOCXLoader
 
 SOURCE = "scripts/data/altiora_prest_test.docx"

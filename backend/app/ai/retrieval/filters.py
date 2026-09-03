@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from uuid import UUID
 
+
 @dataclass
 class RetrievalFilters:
     """Filtres facultatifs utilisés lors d'une recherche."""

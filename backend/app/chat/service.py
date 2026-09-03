@@ -1,10 +1,14 @@
 import json
 from collections.abc import Iterator
+
 from sqlalchemy.orm import Session
+
 from app.chat.ai_client import AIClient, RAGChatClient
 from app.chat.repository import ChatRepository
 from app.chat.schemas import ChatRequest
 from app.models.enums import MessageRole
+
+
 class ChatService:
     """Coordinates persistence and an injectable conversational AI client."""
     def __init__(

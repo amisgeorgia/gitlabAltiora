@@ -1,6 +1,8 @@
 from loguru import logger
 
 from app.ai.rag.pipeline import RAGPipeline
+
+
 def main() -> None:
     logger.info("TEST RAG PIPELINE")
 
