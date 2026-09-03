@@ -1,6 +1,66 @@
-export const mockDashboardStats = {
-  totalUsers: 142,
-  totalContents: 38,
-  totalFormations: 12,
-  totalQRCodes: 25,
+import { DashboardData } from "@/types/dashboard.types";
+
+export const mockDashboardData: DashboardData = {
+  stats: [
+    {
+      id: "scans-qr",
+      title: "Scans QR Codes",
+      value: 25,
+      change: "+ 12%",
+      trend: "up",
+      iconType: "qr",
+    },
+    {
+      id: "conversations-ia",
+      title: "Conversations IA",
+      value: 120,
+      change: "+ 4.5%",
+      trend: "up",
+      iconType: "chat-green",
+    },
+    {
+      id: "messages-echanges",
+      title: "Messages échangés",
+      value: 100,
+      change: "+ 20%",
+      trend: "up",
+      iconType: "chat-yellow",
+    },
+    {
+      id: "taux-qualification",
+      title: "Taux qualification",
+      value: "14.2%",
+      change: "- 1%",
+      trend: "down",
+      iconType: "trend",
+    },
+  ],
+  traffic7Days: [
+    { day: "Lun", visits: 605 },
+    { day: "Mar", visits: 380 },
+    { day: "Mer", visits: 545 },
+    { day: "Jed", visits: 485 },
+    { day: "Ven", visits: 570 },
+    { day: "Sam", visits: 505 },
+    { day: "Dim", visits: 435 },
+  ],
+  traffic30Days: [
+    { day: "Lun", visits: 590 },
+    { day: "Mar", visits: 410 },
+    { day: "Mer", visits: 560 },
+    { day: "Jed", visits: 500 },
+    { day: "Ven", visits: 580 },
+    { day: "Sam", visits: 520 },
+    { day: "Dim", visits: 450 },
+  ],
+  qrScansWeekly: [
+    { day: "Lun", scans: 60 },
+    { day: "Mar", scans: 35 },
+    { day: "Mer", scans: 27 },
+    { day: "Jed", scans: 22 },
+    { day: "Ven", scans: 30 },
+    { day: "Sam", scans: 37 },
+    { day: "Dim", scans: 54 },
+  ],
+  campaigns: [],
 };
