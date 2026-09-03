@@ -10,15 +10,11 @@ from app.db.session import get_db
 
 router = APIRouter(tags=["chat"])
 
-
 def get_chat_service() -> ChatService:
     return ChatService()
 
-
 DatabaseSession = Annotated[Session, Depends(get_db)]
 ChatServiceDependency = Annotated[ChatService, Depends(get_chat_service)]
-
-
 @router.post("/chat")
 def chat(
     request: ChatRequest,
@@ -27,5 +23,4 @@ def chat(
 ) -> StreamingResponse:
     return StreamingResponse(
         service.stream_reply(database, request),
-        media_type="text/event-stream",
-    )
+        media_type="text/event-stream",)

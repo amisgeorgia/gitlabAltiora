@@ -1,11 +1,7 @@
 import uuid
-
 from sqlalchemy.orm import Session
-
 from app.models import Conversation, Message
 from app.models.enums import MessageRole
-
-
 class ChatRepository:
     """Persistence operations for conversations and their messages."""
 
