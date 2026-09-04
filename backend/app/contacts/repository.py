@@ -10,7 +10,7 @@ class ContactRepository:
             name=f"{contact.first_name} {contact.last_name}",
             email=contact.email,
             phone=contact.phone,
-            subject=contact.subject,
+            subject=contact.subject.value,
             message=contact.message,
         )
         database.add(contact_request)
