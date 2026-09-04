@@ -14,14 +14,14 @@ export const publicNavigation: NavItem[] = [
 ];
 
 export const adminNavigation: NavItem[] = [
-  { title: "Vue d'ensemble", href: "/admin" },
-  { title: "Contenus", href: "/admin/contenus" },
-  { title: "Formations", href: "/admin/formations" },
-  { title: "Actualités", href: "/admin/actualites" },
-  { title: "Contacts", href: "/admin/contacts" },
-  { title: "Utilisateurs", href: "/admin/utilisateurs" },
-  { title: "Conversations", href: "/admin/conversations" },
-  { title: "Documents BD", href: "/admin/base-connaissances/documents" },
-  { title: "Chunks BD", href: "/admin/base-connaissances/chunks" },
-  { title: "QR Codes", href: "/admin/qrcodes" },
+  { title: "Tableau de bord", href: "/admin", icon: "LayoutDashboard" },
+  { title: "Contenus", href: "/admin/contenus", icon: "FileText" },
+  { title: "Expertises", href: "/admin/expertises", icon: "GraduationCap" },
+  { title: "Formations", href: "/admin/formations", icon: "MonitorPlay" },
+  { title: "Actualités", href: "/admin/actualites", icon: "Newspaper" },
+  { title: "Contacts", href: "/admin/contacts", icon: "Phone" },
+  { title: "QR Codes", href: "/admin/qrcodes", icon: "QrCode" },
+  { title: "Conversation", href: "/admin/conversations", icon: "MessageSquare" },
+  { title: "Base de connaissances", href: "/admin/base-connaissances/documents", icon: "Database" },
+  { title: "Utilisateurs", href: "/admin/utilisateurs", icon: "CircleUser" },
 ];

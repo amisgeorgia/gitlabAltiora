@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { AuthUser, LoginCredentials } from "@/types/auth.types";
 import { authService } from "@/features/auth/services/auth.service";
 import { authStorage } from "@/features/auth/utils/auth-storage";
@@ -16,13 +16,21 @@ export interface AuthContextValue {
 export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(() => {
-    if (typeof window === "undefined") return null;
-    const storedUser = authStorage.getUser();
-    const token = authStorage.getAccessToken();
-    return storedUser && token ? storedUser : null;
-  });
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const initAuth = () => {
+      const storedUser = authStorage.getUser();
+      const token = authStorage.getAccessToken();
+      if (storedUser && token) {
+        setUser(storedUser);
+      }
+      setIsLoading(false);
+    };
+
+    Promise.resolve().then(initAuth);
+  }, []);
 
   const login = async (credentials: LoginCredentials) => {
     setIsLoading(true);
