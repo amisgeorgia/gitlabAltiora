@@ -6,12 +6,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
 import { AdminLayoutProvider } from "@/providers/AdminLayoutProvider";
+import { AuthProvider } from "@/providers/AuthProvider";
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -51,5 +48,17 @@ export default function AdminLayout({
         </div>
       </div>
     </AdminLayoutProvider>
+  );
+}
+
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <AuthProvider>
+      <AdminLayoutContent>{children}</AdminLayoutContent>
+    </AuthProvider>
   );
 }
