@@ -6,7 +6,6 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.chat.ai_client import MockAIClient
-
 from app.chat.router import get_chat_service
 from app.chat.service import ChatService
 from app.db.session import get_db
@@ -52,7 +51,6 @@ def fake_session() -> Generator[FakeSession, None, None]:
     app.dependency_overrides[get_chat_service] = lambda: ChatService(
         ai_client=MockAIClient()
     )
-    
     yield session
     app.dependency_overrides.clear()
 
