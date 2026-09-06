@@ -1,5 +1,7 @@
 import pytest
+
 from app.ai.ingestion.chunker import TextChunk, TextChunker
+
 
 def test_text_chunk_char_count() -> None:
     chunk = TextChunk(content="Bonjour ALTIORA", chunk_index=0)

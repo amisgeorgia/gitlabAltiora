@@ -103,3 +103,22 @@ def get_gemini_model() -> str:
         "GEMINI_MODEL",
         "gemini-3.6-flash",
     )
+
+
+
+def get_email_settings() -> EmailSettings:
+    """Return the email configuration from the environment."""
+    api_key = os.getenv("EMAIL_API_KEY")
+    from_email = os.getenv("EMAIL_FROM")
+    internal_to = os.getenv("EMAIL_INTERNAL_TO")
+
+    if not all((api_key, from_email, internal_to)):
+        raise EmailConfigurationError(
+            "Email settings must be configured"
+        )
+
+    return EmailSettings(
+        api_key=api_key,
+        from_email=from_email,
+        internal_to=internal_to,
+    )

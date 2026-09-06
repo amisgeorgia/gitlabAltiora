@@ -2,8 +2,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from app.chat.ai_client import MockAIClient, RAGChatClient
 from app.ai.rag.pipeline import RAGResult
+from app.chat.ai_client import MockAIClient, RAGChatClient
 
 
 def test_mock_ai_client_returns_simulated_response():
