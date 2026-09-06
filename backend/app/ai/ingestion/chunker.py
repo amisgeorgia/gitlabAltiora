@@ -25,7 +25,7 @@ class TextChunker:
     def __init__(
         self,
         max_characters: int = 800,
-        overlap_characters: int = 100,
+        overlap_characters: int = 20,
         section_boundary_patterns: Iterable[str] | None = None,
     ) -> None:
         if max_characters <= 0:
@@ -232,21 +232,13 @@ class TextChunker:
         return chunks
 
     def _get_text_overlap(self, text: str) -> str:
-        """
-        Retourne la partie finale du chunk utilisée comme overlap.
-        """
-
         if self.overlap_characters <= 0:
             return ""
-
         if len(text) <= self.overlap_characters:
             return text
 
-        overlap = text[-self.overlap_characters:]
+        cutoff = len(text) - self.overlap_characters
+        while cutoff > 0 and text[cutoff - 1] != " ":
+            cutoff -= 1
 
-        first_space = overlap.find(" ")
-
-        if first_space != -1:
-            overlap = overlap[first_space + 1 :]
-
-        return overlap.strip()
+        return text[cutoff:].strip()
