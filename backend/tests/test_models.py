@@ -4,6 +4,7 @@ from app.models import Base
 def test_model_metadata_contains_the_validated_tables() -> None:
     assert set(Base.metadata.tables) == {
         "users",
+        "password_reset_tokens",
         "contents",
         "contact_requests",
         "qr_codes",

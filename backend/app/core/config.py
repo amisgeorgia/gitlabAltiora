@@ -13,6 +13,17 @@ class EmailSettings:
     internal_to: str
 
 
+class AuthConfigurationError(RuntimeError):
+    """Raised when required authentication settings are absent."""
+
+
+@dataclass(frozen=True)
+class JwtSettings:
+    secret_key: str
+    access_token_expire_minutes: int
+    password_reset_expire_minutes: int
+
+
 def get_database_url() -> str:
     """Return the synchronous SQLAlchemy URL from the environment."""
     database_url = os.getenv("DATABASE_URL")
@@ -34,3 +45,15 @@ def get_email_settings() -> EmailSettings:
         raise EmailConfigurationError("Email settings must be configured")
 
     return EmailSettings(api_key=api_key, from_email=from_email, internal_to=internal_to)
+
+
+def get_jwt_settings() -> JwtSettings:
+    secret_key = os.getenv("JWT_SECRET_KEY")
+    if not secret_key:
+        raise AuthConfigurationError("JWT secret must be configured")
+
+    return JwtSettings(
+        secret_key=secret_key,
+        access_token_expire_minutes=int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "60")),
+        password_reset_expire_minutes=int(os.getenv("PASSWORD_RESET_EXPIRE_MINUTES", "30")),
+    )
