@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export function middleware() {
+export function proxy() {
   // Middleware Next.js minimal pour ALTIORA CONNECT
   return NextResponse.next();
 }

@@ -1,9 +1,45 @@
 @import "tailwindcss";
 @import "../styles/variables.css";
 
+/* Ajout du point-virgule manquant ici */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+@theme {
+  --color-gold-50: #fcf9ee;
+  --color-gold-100: #f6ecd1;
+  --color-gold-200: #eed7a2;
+  --color-gold-300: #e3bd6a;
+  --color-gold-400: #dca240;
+  --color-gold-500: #D4AF37;
+  --color-gold-600: #B88A1A;
+  --color-gold-700: #995621;
+  --color-gold-800: #7d4520;
+  --color-gold-900: #65391e;
+  --color-gold-950: #391c0e;
+  
+  --color-blue-950: #0B1F4D;
+  --color-blue-900: #06132F;
+  --color-blue-800: #0B3D7A;
+
+  /* Altiora Connect Custom Palette */
+  --color-altiora-primary: #0B1F4D;
+  --color-altiora-gold: #D4AF37;
+  --color-altiora-blue-medium: #0B3D7A;
+  --color-altiora-blue-dark: #06132F;
+  --color-altiora-gold-dark: #B88A1A;
+  --color-altiora-red: #DF3434;
+  --color-altiora-gray: #5D5D5D;
+  --color-altiora-title: #131313;
+  --color-altiora-link: #1d70b8;
+  --color-altiora-link-hover: #003078;
+  --color-altiora-button: #0B1F4D;
+  --color-altiora-button-hover: #06132F;
+  --color-altiora-button-disabled: #DCDCDC;
 }
 
 @theme inline {
@@ -35,8 +71,6 @@
   --color-bouton-secondaire: #DCDCDC;
 }
 
-
-
 body {
   background: var(--background);
   color: var(--foreground);
@@ -44,52 +78,28 @@ body {
 }
 
 @keyframes float-gentle {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
 }
 
 @keyframes float-mobile {
-  0%, 100% {
-    transform: translateY(0px) translateX(2.5rem);
-  }
-  50% {
-    transform: translateY(-10px) translateX(2.5rem);
-  }
+  0%, 100% { transform: translateY(0px) translateX(2.5rem); }
+  50% { transform: translateY(-10px) translateX(2.5rem); }
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.25;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.55;
-    transform: scale(1.1);
-  }
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.1); }
 }
 
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 @keyframes ripple {
-  0% {
-    transform: scale(0.95);
-    opacity: 0.75;
-  }
-  100% {
-    transform: scale(1.6);
-    opacity: 0;
-  }
+  0% { transform: scale(0.95); opacity: 0.75; }
+  100% { transform: scale(1.6); opacity: 0; }
 }
 
 .animate-float-gentle {
@@ -107,4 +117,3 @@ body {
 .animate-ripple {
   animation: ripple 2.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
-

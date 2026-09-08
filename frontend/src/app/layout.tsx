@@ -5,6 +5,7 @@ import { AuthProvider } from "@/providers/AuthProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ToastProvider } from "@/providers/ToastProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const manrope = localFont({
   src: "../../public/fonts/Manrope-VariableFont_wght.ttf",
@@ -44,7 +45,9 @@ export default function RootLayout({
         <QueryProvider>
           <AuthProvider>
             <ThemeProvider>
-              <ToastProvider>{children}</ToastProvider>
+              <LanguageProvider>
+                <ToastProvider>{children}</ToastProvider>
+              </LanguageProvider>
             </ThemeProvider>
           </AuthProvider>
         </QueryProvider>
