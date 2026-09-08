@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { AuthUser, LoginCredentials } from "@/types/auth.types";
 import { authService } from "@/features/auth/services/auth.service";
 import { authStorage } from "@/features/auth/utils/auth-storage";
@@ -32,7 +32,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     Promise.resolve().then(initAuth);
   }, []);
 
-  const login = async (credentials: LoginCredentials) => {
+  const login = useCallback(async (credentials: LoginCredentials) => {
     setIsLoading(true);
     try {
       const response = await authService.login(credentials);
@@ -40,23 +40,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     authService.logout();
     setUser(null);
-  };
+  }, []);
+
+  const contextValue = useMemo<AuthContextValue>(
+    () => ({
+      user,
+      isAuthenticated: !!user,
+      isLoading,
+      login,
+      logout,
+    }),
+    [user, isLoading, login, logout]
+  );
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        isAuthenticated: !!user,
-        isLoading,
-        login,
-        logout,
-      }}
-    >
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );

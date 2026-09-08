@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "@/providers/AuthProvider";
-import { ThemeProvider } from "@/contexts/ThemeContext";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ToastProvider } from "@/providers/ToastProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { LanguageProvider } from "@/contexts/LanguageContext";
