@@ -1,175 +1,97 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { ContactTooltips } from "./ContactTooltips";
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
+  const { t } = useLanguage();
 
   return (
-    <footer className="w-full bg-[#081B42] text-white pt-14 sm:pt-16 lg:pt-20 pb-8 overflow-hidden">
-      <div className="mx-auto max-w-[1430px] px-4 sm:px-6 lg:px-12">
-        
-        {/* 4-Columns Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 xl:gap-12 pb-14 sm:pb-16">
-          
-          {/* Column 1: ALTIORA CONNECT */}
-          <div className="lg:col-span-3 sr-stagger">
-            <h4 className="text-base sm:text-lg font-bold text-brand-gold mb-5 sm:mb-6 tracking-wide">
-              ALTIORA CONNECT
-            </h4>
-            <ul className="space-y-3 sm:space-y-3.5 text-sm sm:text-[15px] text-slate-300/90 font-normal">
-              <li>
-                <Link href="/" className="transition-colors hover:text-white">
-                  Accueil
-                </Link>
-              </li>
-              <li>
-                <Link href="/a-propos" className="transition-colors hover:text-white">
-                  À propos
-                </Link>
-              </li>
-              <li>
-                <Link href="/expertises" className="transition-colors hover:text-white">
-                  Nos expertises
-                </Link>
-              </li>
-              <li>
-                <Link href="/formations" className="transition-colors hover:text-white">
-                  Formations
-                </Link>
-              </li>
-              <li>
-                <Link href="/actualites" className="transition-colors hover:text-white">
-                  Actualités
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="transition-colors hover:text-white">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 2: Expertises */}
-          <div className="lg:col-span-3 sr-stagger">
-            <h4 className="text-base sm:text-lg font-bold text-brand-gold mb-5 sm:mb-6 tracking-wide">
-              Expertises
-            </h4>
-            <ul className="space-y-3 sm:space-y-3.5 text-sm sm:text-[15px] text-slate-300/90 font-normal">
-              <li>
-                <Link href="/expertises/conseil-strategique" className="transition-colors hover:text-white">
-                  Conseil stratégique
-                </Link>
-              </li>
-              <li>
-                <Link href="/expertises/intelligence-artificielle" className="transition-colors hover:text-white">
-                  Intelligence Artificielle
-                </Link>
-              </li>
-              <li>
-                <Link href="/expertises/developpement-web" className="transition-colors hover:text-white">
-                  Développement Web
-                </Link>
-              </li>
-              <li>
-                <Link href="/expertises/developpement-mobile" className="transition-colors hover:text-white">
-                  Développement Mobile
-                </Link>
-              </li>
-              <li>
-                <Link href="/expertises/ui-ux-design" className="transition-colors hover:text-white">
-                  UI/UX Design
-                </Link>
-              </li>
-              <li>
-                <Link href="/expertises/business-intelligence" className="transition-colors hover:text-white">
-                  Business Intelligence
-                </Link>
-              </li>
-              <li>
-                <Link href="/expertises/cloud" className="transition-colors hover:text-white">
-                  Cloud
-                </Link>
-              </li>
-              <li>
-                <Link href="/expertises/cybersecurite" className="transition-colors hover:text-white">
-                  Cybersécurité
-                </Link>
-              </li>
-              <li>
-                <Link href="/expertises/formation" className="transition-colors hover:text-white">
-                  Formation
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: Ressources */}
-          <div className="lg:col-span-3 sr-stagger">
-            <h4 className="text-base sm:text-lg font-bold text-brand-gold mb-5 sm:mb-6 tracking-wide">
-              Ressources
-            </h4>
-            <ul className="space-y-3 sm:space-y-3.5 text-sm sm:text-[15px] text-slate-300/90 font-normal">
-              <li>
-                <Link href="/faq" className="transition-colors hover:text-white">
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="transition-colors hover:text-white">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link href="/politique-de-confidentialite" className="transition-colors hover:text-white">
-                  Politique de confidentialité
-                </Link>
-              </li>
-              <li>
-                <Link href="/conditions-d-utilisation" className="transition-colors hover:text-white">
-                  Conditions d&apos;utilisation
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4: Contact */}
-          <div className="lg:col-span-3 sr-stagger">
-            <h4 className="text-base sm:text-lg font-bold text-brand-gold mb-5 sm:mb-6 tracking-wide">
-              Contact
-            </h4>
-            <ul className="space-y-3.5 text-sm sm:text-[15px] text-slate-300/90 font-normal">
-              <li className="flex items-center gap-3">
-                <MapPin size={18} className="text-slate-300 shrink-0" />
-                <span>Antananarivo, Madagascar</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone size={18} className="text-slate-300 shrink-0" />
-                <a href="tel:+261340710633" className="transition-colors hover:text-white">
-                  034 07 106 33
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail size={18} className="text-slate-300 shrink-0" />
-                <a href="mailto:contact@altioraconnect.mg" className="transition-colors hover:text-white">
-                  contact@altioraconnect.mg
-                </a>
-              </li>
-            </ul>
-          </div>
-
+    <footer className="border-t-4 border-gold-500 py-4 md:py-6 bg-[#0D1322] dark:bg-slate-950 text-slate-300 dark:border-slate-800 transition-colors duration-300 relative">
+      <div className="container mx-auto px-4 sm:px-8 flex flex-col items-center">
+        {/* Slogans */}
+        <div className="flex items-center justify-center space-x-2 sm:space-x-4 mb-1 sm:mb-2 text-gold-400 font-bold tracking-[0.2em] text-xs sm:text-sm">
+          <span>INNOVER</span>
+          <span className="text-gold-500">•</span>
+          <span>OPTIMISER</span>
+          <span className="text-gold-500">•</span>
+          <span>RÉUSSIR</span>
         </div>
 
-        {/* Bottom Copyright Row */}
-        <div className="pt-8 sm:pt-10 border-t border-white/10 text-center sr-fade-up">
-          <p className="text-xs sm:text-sm text-slate-400 font-normal">
-            &copy; {currentYear} ALTIORA CONNECT | Droits réservés
+        <h2 className="text-white text-sm sm:text-lg md:text-xl font-bold tracking-wide uppercase text-center mb-2 sm:mb-4">
+          ENSEMBLE, TRANSFORMONS VOS AMBITIONS EN <span className="text-gold-500">RÉSULTATS CONCRETS</span>
+        </h2>
+
+        {/* Grille 3 Colonnes */}
+        <div className="w-full max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-3 gap-4 mb-2 sm:mb-4 border-t border-slate-700/50 pt-2 sm:pt-4">
+          {/* Colonne 1: Navigation */}
+          <div className="flex flex-col items-start text-left">
+            <h3 className="text-gold-500 font-bold mb-2 uppercase tracking-wider text-sm">Navigation</h3>
+            <ul className="space-y-1 sm:space-y-1.5 text-xs sm:text-sm text-slate-300">
+              <li><Link href="/" className="hover:text-white hover:translate-x-1 inline-block transition-transform">{t("nav.home") || "Accueil"}</Link></li>
+              <li><Link href="/a-propos" className="hover:text-white hover:translate-x-1 inline-block transition-transform">{t("nav.about")}</Link></li>
+              <li><Link href="/expertises" className="hover:text-white hover:translate-x-1 inline-block transition-transform">{t("nav.expertises")}</Link></li>
+              <li><Link href="/formations" className="hover:text-white hover:translate-x-1 inline-block transition-transform">{t("nav.formations")}</Link></li>
+              <li><Link href="/actualites" className="hover:text-white hover:translate-x-1 inline-block transition-transform">{t("nav.news")}</Link></li>
+              <li><Link href="/contact" className="hover:text-white hover:translate-x-1 inline-block transition-transform">{t("nav.contact")}</Link></li>
+            </ul>
+          </div>
+
+          {/* Colonne 2: Expertises & Formations */}
+          <div className="flex flex-col items-start text-left">
+            <h3 className="text-gold-500 font-bold mb-2 uppercase tracking-wider text-sm">Expertises & Formations</h3>
+            <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-slate-300">
+              <div>
+                <Link href="/expertises" className="font-semibold text-white hover:text-gold-400 mb-1 block">{t("expertises.title") || "Nos Expertises"}</Link>
+                <ul className="space-y-0.5 sm:space-y-1 text-slate-400 md:pl-3 md:border-l-2 md:border-gold-500/30">
+                  <li><Link href="/expertises" className="hover:text-white transition-colors">{t("footer.expertise.1")}</Link></li>
+                  <li><Link href="/expertises" className="hover:text-white transition-colors">{t("footer.expertise.2")}</Link></li>
+                  <li><Link href="/expertises" className="hover:text-white transition-colors">{t("footer.expertise.3")}</Link></li>
+                </ul>
+              </div>
+              <div>
+                <Link href="/formations" className="font-semibold text-white hover:text-gold-400 mb-1 block">{t("formations.title") || "Nos Formations"}</Link>
+                <ul className="space-y-0.5 sm:space-y-1 text-slate-400 md:pl-3 md:border-l-2 md:border-gold-500/30">
+                  <li><Link href="/formations" className="hover:text-white transition-colors">Intelligence Artificielle</Link></li>
+                  <li><Link href="/formations" className="hover:text-white transition-colors">Management & Stratégie</Link></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Colonne 3: Contact & Légal */}
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left col-span-2 lg:col-span-1 pt-2 lg:pt-0 border-t border-slate-700/50 lg:border-0">
+            <h3 className="text-gold-500 font-bold mb-2 uppercase tracking-wider text-sm">Contactez-nous</h3>
+            <ContactTooltips />
+
+            <h3 className="text-gold-500 font-bold mb-2 uppercase tracking-wider text-sm">Informations Légales</h3>
+            <div className="flex flex-row flex-wrap justify-center lg:justify-start gap-x-4 gap-y-1 sm:gap-y-2 text-xs sm:text-sm text-slate-300">
+              <Link href="/mentions-legales" className="hover:text-white flex items-center transition-colors">
+                <span className="hidden md:inline-block w-1.5 h-1.5 rounded-full bg-gold-500 mr-2" />
+                {t("footer.terms")}
+              </Link>
+              <Link href="/politique-de-confidentialite" className="hover:text-white flex items-center transition-colors">
+                <span className="hidden md:inline-block w-1.5 h-1.5 rounded-full bg-gold-500 mr-2" />
+                {t("footer.privacy_policy")}
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="w-full max-w-5xl mx-auto pt-1 sm:pt-3 border-t border-slate-700/50 flex flex-col items-center">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mb-1 sm:mb-2 text-[8px] sm:text-xs md:text-sm font-bold tracking-widest text-slate-300">
+            <div className="flex items-center"><span className="mr-2">👥</span> PROFESSIONNALISME</div>
+            <span className="text-gold-500 hidden sm:inline">•</span>
+            <div className="flex items-center"><span className="mr-2">🤝</span> ENGAGEMENT</div>
+            <span className="text-gold-500 hidden sm:inline">•</span>
+            <div className="flex items-center"><span className="mr-2">📈</span> PERFORMANCE</div>
+          </div>
+          <p className="text-center text-[9px] sm:text-xs text-slate-500">
+            © {new Date().getFullYear()} ALTIORA PREST. {t("footer.all_rights")}
           </p>
         </div>
-
       </div>
     </footer>
   );
