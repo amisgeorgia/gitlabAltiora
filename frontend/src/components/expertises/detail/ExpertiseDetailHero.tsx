@@ -52,12 +52,12 @@ export function ExpertiseDetailHero({ expertise }: ExpertiseDetailHeroProps) {
 
             {/* Titre principal */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-bold text-white tracking-tight leading-[1.15] mb-6">
-              {expertise.title}
+              {expertise.title || "Expertise"}
             </h1>
 
             {/* Description d'accroche */}
             <p className="text-slate-300 text-base sm:text-lg md:text-[19px] leading-relaxed font-normal mb-8 max-w-2xl">
-              {expertise.heroDescription || expertise.description}
+              {expertise.heroDescription || expertise.description || ""}
             </p>
 
             {/* Bouton d'action doré sans shadow */}
@@ -75,8 +75,8 @@ export function ExpertiseDetailHero({ expertise }: ExpertiseDetailHeroProps) {
           <div className="lg:col-span-5 sr-fade-up">
             <div className="relative w-full aspect-[4/3] sm:aspect-[16/11] rounded-2xl sm:rounded-3xl overflow-hidden border border-white/15 bg-[#0D2452]/60 backdrop-blur-sm group">
               <Image
-                src={expertise.image}
-                alt={expertise.title}
+                src={expertise.image || expertise.images?.[0] || "/images/act1.avif"}
+                alt={expertise.title || "Expertise"}
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 42vw"

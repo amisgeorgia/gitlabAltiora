@@ -83,7 +83,7 @@ export function ExpertiseDetailContent({ expertise }: ExpertiseDetailContentProp
               </div>
             ))
           ) : (
-            expertise.points.map((point, idx) => (
+            expertise.points?.map((point, idx) => (
               <div
                 key={idx}
                 className="flex items-center gap-3.5 p-3.5 rounded-xl bg-[#F8FAFC] border border-slate-200/70"

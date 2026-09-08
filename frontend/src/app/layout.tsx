@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { AuthProvider } from "@/providers/AuthProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ToastProvider } from "@/providers/ToastProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const manrope = localFont({
   src: "../../public/fonts/Manrope-VariableFont_wght.ttf",
@@ -41,9 +43,13 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-sans">
         <QueryProvider>
-          <ThemeProvider>
-            <ToastProvider>{children}</ToastProvider>
-          </ThemeProvider>
+          <AuthProvider>
+            <ThemeProvider>
+              <LanguageProvider>
+                <ToastProvider>{children}</ToastProvider>
+              </LanguageProvider>
+            </ThemeProvider>
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>

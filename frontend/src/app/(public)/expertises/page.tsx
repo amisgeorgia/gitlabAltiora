@@ -1,46 +1,26 @@
-import React from "react";
-import { Metadata } from "next";
-import { ExpertisesHeroSection } from "@/components/expertises/ExpertisesHeroSection";
-import { ExpertisesListSection } from "@/components/expertises/ExpertisesListSection";
-import { ExpertisesMethodologySection } from "@/components/expertises/ExpertisesMethodologySection";
-import { ExpertisesTrustSection } from "@/components/expertises/ExpertisesTrustSection";
-import { CtaBanner } from "@/components/common/CtaBanner";
-import { ScrollRevealInit } from "@/components/common/ScrollRevealInit";
+"use client"
 
-export const metadata: Metadata = {
-  title: "Nos Expertises - ALTIORA CONNECT | Conseil, Formation & Transformation Digitale",
-  description:
-    "ALTIORA CONNECT accompagne les entreprises, institutions et organisations grâce à une expertise multidisciplinaire combinant conseil stratégique, formation professionnelle, transformation digitale et solutions technologiques innovantes.",
-};
+
+import { ExpertisesHeroSection } from "@/components/expertises/ExpertisesHeroSection";
+import { ExpertisesGridSection } from "@/components/expertises/ExpertisesGridSection";
+import { ExpertisesMethodologySection } from "@/components/expertises/ExpertisesMethodologySection";
+import { WhyTrustUsSection } from "@/components/expertises/WhyTrustUsSection";
+import { TestimonialsSection } from "@/components/expertises/TestimonialsSection";
+import { CTASection } from "@/components/expertises/CTASection";
+
 
 export default function ExpertisesPage() {
-  return (
-    <div className="w-full min-h-screen bg-white">
-      {/* Initialisation des animations ScrollReveal */}
-      <ScrollRevealInit />
-
+return (
+    <main className="min-h-screen">
       <ExpertisesHeroSection />
-
-      <ExpertisesListSection />
-
+      <ExpertisesGridSection />
       <ExpertisesMethodologySection />
-
-      <ExpertisesTrustSection />
-
-      {/* Bannière (Réutilisable) */}
-      <CtaBanner
-        title="Donnons vie à votre prochain projet."
-        description="Échangeons ensemble afin de construire une solution adaptée aux besoins de votre organisation."
-        primaryButton={{
-          label: "Demander un accompagnement",
-          href: "/contact",
-        }}
-        secondaryButton={{
-          label: "Nous contacter",
-          href: "/contact",
-        }}
-      />
-    </div>
+      <section className="bg-slate-50 dark:bg-slate-900 py-12 px-4 transition-colors duration-300">
+        <WhyTrustUsSection />
+        <TestimonialsSection />
+      </section>
+      <CTASection />
+    </main>
   );
 }
 
