@@ -38,7 +38,7 @@ export function ExpertisesSection() {
           <h2 className="text-3xl sm:text-4xl lg:text-[46px] font-bold tracking-tight text-primary leading-[1.18] max-w-3xl">
             Des expertises pensées pour <br />
             <span>structurer</span>{" "}
-            <span className="text-slate-400 font-medium">
+            <span className="text-slate-500 font-medium">
               et accélérer la croissance
             </span>
           </h2>

@@ -27,7 +27,7 @@ export function AboutSection() {
                 src="/images/apropos.webp"
                 alt="À propos de nous - Altiora Connect"
                 fill
-                quality={95}
+                quality={85}
                 className="object-cover transition-transform duration-700 hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
@@ -44,7 +44,7 @@ export function AboutSection() {
             {/* Title */}
             <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-primary leading-[1.15] mb-6 sm:mb-8">
               Un cabinet engagé pour <br className="hidden sm:inline" />
-              <span className="text-slate-400 font-medium">
+              <span className="text-slate-500 font-medium">
                 accélérer votre transformation digitale
               </span>
             </h2>
