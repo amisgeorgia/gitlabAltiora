@@ -17,6 +17,15 @@ export interface ExpertiseItem {
   descKey: string;
   images: string[];
   features: string[];
+  title?: string;
+  description?: string;
+  heroDescription?: string;
+  categoryBadge?: string;
+  image?: string;
+  presentationParagraphs?: string[];
+  keyBenefits?: { title: string; description: string }[];
+  points?: string[];
+  complementaryCards?: { iconName: string; title: string; description: string }[];
 }
 
 export const EXPERTISES_DATA: ExpertiseItem[] = [

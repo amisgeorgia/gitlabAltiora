@@ -8,7 +8,7 @@ export function ExpertiseDetails({ details }: ExpertiseDetailsProps) {
   return (
     <div className="bg-slate-50 dark:bg-slate-800 p-8 md:p-12 rounded-3xl border border-slate-100 dark:border-slate-700 mb-12">
       <h2 className="text-2xl font-bold text-blue-950 dark:text-white mb-8">
-        Nos domaines d'intervention
+        Nos domaines d&apos;intervention
       </h2>
       <div className="space-y-6">
         {details.map((detail, index) => (

@@ -30,7 +30,7 @@ export function HeroSection() {
             Actualités & <span className="text-gold-500">Ressources</span>
           </h1>
           <p className="text-lg text-slate-200 leading-relaxed max-w-2xl">
-            Plongez au cœur des tendances en matière de transformation digitale, d'intelligence artificielle et d'innovation d'entreprise. Des insights pointus pour guider votre stratégie.
+            Plongez au cœur des tendances en matière de transformation digitale, d&apos;intelligence artificielle et d&apos;innovation d&apos;entreprise. Des insights pointus pour guider votre stratégie.
           </p>
         </motion.div>
       </div>

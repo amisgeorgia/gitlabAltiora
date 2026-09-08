@@ -29,10 +29,11 @@ export function Header() {
     { href: "/contact", label: t("nav.contact") },
   ];
 
-  // 1. Fermer le menu mobile lors d'un changement de route
-  useEffect(() => {
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setMobileMenuOpen(false);
-  }, [pathname]);
+  }
 
   // 2. Fermer le menu mobile lors d'un clic à l'extérieur du header
   useEffect(() => {

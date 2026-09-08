@@ -30,7 +30,7 @@ export function FormationCard({ formation }: FormationCardProps) {
     <motion.div variants={itemVariants} className="h-full">
       <Link href={`/formations/${formation.id}`} className="group bg-transparent rounded-3xl overflow-hidden transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
         <div className="relative h-48 sm:h-52 overflow-hidden rounded-3xl mb-4 shadow-sm group-hover:shadow-lg transition-shadow">
-          <ImageSlider images={formation.images} alt={formation.title} interval={4000 + Math.random() * 2000} />
+          <ImageSlider images={formation.images} alt={formation.title} interval={5000} />
         </div>
 
         <div className="flex-1 flex flex-col px-1">

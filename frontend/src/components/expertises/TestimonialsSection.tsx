@@ -29,7 +29,7 @@ export function TestimonialsSection() {
               ))}
             </div>
             <p className="text-slate-600 dark:text-slate-400 text-sm text-center italic leading-relaxed flex-1 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-              "{review.text}"
+              &ldquo;{review.text}&rdquo;
             </p>
           </motion.div>
         ))}

@@ -44,7 +44,7 @@ export function FeaturedArticle({ article }: FeaturedArticleProps) {
           </p>
           <div>
             <span className="inline-flex items-center px-6 py-3 bg-gold-500 text-blue-950 font-bold rounded-xl group-hover:bg-gold-600 transition-colors">
-              Lire l'article <ArrowRight className="ml-2 h-4 w-4" />
+              Lire l&apos;article <ArrowRight className="ml-2 h-4 w-4" />
             </span>
           </div>
         </div>

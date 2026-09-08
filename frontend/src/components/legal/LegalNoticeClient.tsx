@@ -39,7 +39,7 @@ export function LegalNoticeClient() {
                 2. Hébergement
               </h2>
               <p>
-                Le site est hébergé sur des serveurs sécurisés afin de garantir l'intégrité et la disponibilité des données. Pour toute question concernant l'infrastructure d'hébergement, veuillez nous contacter aux coordonnées ci-dessus.
+                Le site est hébergé sur des serveurs sécurisés afin de garantir l&apos;intégrité et la disponibilité des données. Pour toute question concernant l&apos;infrastructure d&apos;hébergement, veuillez nous contacter aux coordonnées ci-dessus.
               </p>
             </section>
 
@@ -48,10 +48,10 @@ export function LegalNoticeClient() {
                 3. Propriété intellectuelle
               </h2>
               <p>
-                L'ensemble de ce site relève de la législation internationale sur le droit d'auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les représentations iconographiques et photographiques.
+                L&apos;ensemble de ce site relève de la législation internationale sur le droit d&apos;auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés, y compris pour les documents téléchargeables et les représentations iconographiques et photographiques.
               </p>
               <p>
-                La reproduction de tout ou partie de ce site sur un support électronique quel qu'il soit est formellement interdite sauf autorisation expresse du directeur de la publication.
+                La reproduction de tout ou partie de ce site sur un support électronique quel qu&apos;il soit est formellement interdite sauf autorisation expresse du directeur de la publication.
               </p>
             </section>
 
@@ -60,7 +60,7 @@ export function LegalNoticeClient() {
                 4. Limitation de responsabilité
               </h2>
               <p>
-                ALTIORA PREST s'efforce d'assurer au mieux de ses possibilités l'exactitude et la mise à jour des informations diffusées sur ce site. Toutefois, ALTIORA PREST décline toute responsabilité pour toute imprécision, inexactitude ou omission portant sur des informations disponibles sur le site.
+                ALTIORA PREST s&apos;efforce d&apos;assurer au mieux de ses possibilités l&apos;exactitude et la mise à jour des informations diffusées sur ce site. Toutefois, ALTIORA PREST décline toute responsabilité pour toute imprécision, inexactitude ou omission portant sur des informations disponibles sur le site.
               </p>
             </section>
           </div>

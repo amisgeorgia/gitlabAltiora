@@ -41,7 +41,7 @@ export function ArticleContent({ article }: ArticleContentProps) {
               {/* Affichage de la citation (Quote) sous le premier bloc */}
               {index === 0 && article.quote && (
                 <blockquote className="border-l-4 border-gold-500 pl-6 italic text-slate-700 dark:text-slate-300 my-8 font-medium">
-                  "{article.quote}"
+                  &ldquo;{article.quote}&rdquo;
                 </blockquote>
               )}
             </div>
@@ -55,7 +55,7 @@ export function ArticleContent({ article }: ArticleContentProps) {
             </p>
             {article.quote && (
               <blockquote className="border-l-4 border-gold-500 pl-6 italic text-slate-700 dark:text-slate-300 my-8">
-                "{article.quote}"
+                &ldquo;{article.quote}&rdquo;
               </blockquote>
             )}
           </div>

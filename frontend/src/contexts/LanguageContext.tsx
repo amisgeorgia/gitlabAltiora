@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useSyncExternalStore, useCallback } from 'react';
 import { translations, Language, TranslationKey } from '@/i18n/translations';
 
 interface LanguageContextType {
@@ -15,33 +15,46 @@ const LanguageContext = createContext<LanguageContextType>({
   t: (key) => key,
 });
 
+let langListeners: Array<() => void> = [];
+
+function emitChange() {
+  for (const listener of langListeners) {
+    listener();
+  }
+}
+
+function subscribe(listener: () => void) {
+  langListeners.push(listener);
+  return () => {
+    langListeners = langListeners.filter((l) => l !== listener);
+  };
+}
+
+function getStoredLang(): Language {
+  try {
+    const stored = localStorage.getItem('lang') as Language;
+    if (stored === 'fr' || stored === 'en') return stored;
+  } catch {
+    // ignore
+  }
+  return 'fr';
+}
+
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [lang, setLang] = useState<Language>('fr');
+  const lang = useSyncExternalStore(subscribe, getStoredLang, () => 'fr' as Language);
 
-  // 1. Initialisation unique au montage client
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem('lang') as Language;
-      if (stored && (stored === 'fr' || stored === 'en')) {
-        setLang(stored);
-      }
-    } catch (e) {
-      // Sécurité si localStorage n'est pas accessible
-    }
-  }, []);
-
-  // 2. Basculer de langue et enregistrer proprement
+  // Basculer de langue et enregistrer proprement
   const toggleLang = useCallback(() => {
-    setLang((prev) => {
-      const nextLang = prev === 'fr' ? 'en' : 'fr';
-      try {
-        localStorage.setItem('lang', nextLang);
-      } catch (e) {}
-      return nextLang;
-    });
-  }, []);
+    const nextLang = lang === 'fr' ? 'en' : 'fr';
+    try {
+      localStorage.setItem('lang', nextLang);
+    } catch {
+      // ignore
+    }
+    emitChange();
+  }, [lang]);
 
-  // 3. Fonction de traduction sécurisée (avec fallback)
+  // Fonction de traduction sécurisée (avec fallback)
   const t = useCallback(
     (key: TranslationKey | string): string => {
       const dictionary = translations[lang] || translations.fr;

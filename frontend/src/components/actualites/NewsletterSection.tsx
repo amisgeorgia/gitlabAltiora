@@ -27,7 +27,7 @@ export function NewsletterSection() {
             type="submit"
             className="px-8 py-4 bg-gold-500 text-blue-950 font-bold rounded-xl hover:bg-gold-400 transition-colors shrink-0 shadow-lg shadow-gold-500/20"
           >
-            S'abonner
+            S&apos;abonner
           </button>
         </form>
       </div>

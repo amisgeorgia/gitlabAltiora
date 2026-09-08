@@ -53,7 +53,7 @@ const { t } = useLanguage();
             >
               <Link href={`/expertises/${expertise.id}`} className="flex flex-col h-full">
                 <div className="relative h-48 overflow-hidden">
-                  <ImageSlider images={expertise.images} alt={t(expertise.titleKey as TranslationKey)} interval={4000 + Math.random() * 2000} />
+                  <ImageSlider images={expertise.images} alt={t(expertise.titleKey as TranslationKey)} interval={5000} />
                 </div>
                 
                 <div className="p-5 md:p-6 flex flex-col flex-1">

@@ -144,10 +144,10 @@ export function ContactForm() {
             </div>
             <div className="text-sm">
               <label htmlFor="consent" className="font-medium text-slate-700 dark:text-slate-300">
-                J'accepte la politique de confidentialité <span className="text-red-500">*</span>
+                J&apos;accepte la politique de confidentialité <span className="text-red-500">*</span>
               </label>
               <p className="text-slate-500 dark:text-slate-400 mt-1">
-                En cochant cette case, j'accepte que mes données soient traitées pour répondre à ma demande.
+                En cochant cette case, j&apos;accepte que mes données soient traitées pour répondre à ma demande.
                 <Link href="/politique-de-confidentialite" className="text-gold-600 hover:underline ml-1">
                   En savoir plus
                 </Link>

@@ -26,7 +26,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
           <ImageSlider
             images={article.images}
             alt={article.title}
-            interval={4000 + Math.random() * 2000}
+            interval={5000}
           />
         </div>
 
@@ -50,7 +50,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
 
           <div className="mt-auto">
             <span className="inline-flex items-center px-5 py-2.5 bg-gold-500 text-blue-950 text-sm font-bold rounded-lg group-hover:bg-gold-600 transition-colors">
-              Lire l'article{" "}
+              Lire l&apos;article{" "}
               <ArrowRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
             </span>
           </div>

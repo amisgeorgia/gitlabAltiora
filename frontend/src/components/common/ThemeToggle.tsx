@@ -1,17 +1,18 @@
 "use client"
 
-import React, {useEffect, useState} from "react"
+import React, { useSyncExternalStore } from "react"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "@/contexts/ThemeContext"
 
+const emptySubscribe = () => () => {};
+
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // Évite les erreurs d'hydratation Next.js en attendant le montage
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 
 // Affichage d'un placeholder pendant l'hydratation côté client pour éviter le clignotement
   if (!mounted) {

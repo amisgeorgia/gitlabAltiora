@@ -12,7 +12,7 @@ export function FormationSidebar() {
       </p>
       <Link href="/contact">
         <Button variant="gold" className="w-full mb-4">
-          S'inscrire
+          S&apos;inscrire
         </Button>
       </Link>
       <Button variant="outline" className="w-full border-slate-600 text-white hover:bg-white/10 hover:text-white">

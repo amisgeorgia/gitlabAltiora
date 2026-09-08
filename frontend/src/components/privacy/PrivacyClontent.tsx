@@ -1,17 +1,18 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useSyncExternalStore } from "react"
 import {motion} from "framer-motion"
 import { useLanguage } from "@/contexts/LanguageContext"
 
+const emptySubscribe = () => () => {};
+
 export function PrivacyContent() {
   const { t } = useLanguage();
-  const [mounted, setMounted] = useState(false);
-
-  // Sécurité anti-mismatch d'hydratation Next.js
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 
   if (!mounted) {
     return (
@@ -44,12 +45,12 @@ export function PrivacyContent() {
                 1. Collecte des données personnelles
               </h2>
               <p>
-                Nous collectons les données personnelles que vous nous fournissez volontairement lors de l'utilisation de notre site, notamment lorsque vous :
+                Nous collectons les données personnelles que vous nous fournissez volontairement lors de l&apos;utilisation de notre site, notamment lorsque vous :
               </p>
               <ul className="list-disc pl-5 mt-2 space-y-1">
                 <li>Remplissez notre formulaire de contact (nom, prénom, adresse e-mail, numéro de téléphone).</li>
                 <li>Interagissez avec notre assistant virtuel (Chatbot).</li>
-                <li>Naviguez sur le site (données d'utilisation, informations techniques).</li>
+                <li>Naviguez sur le site (données d&apos;utilisation, informations techniques).</li>
               </ul>
             </section>
 
@@ -61,7 +62,7 @@ export function PrivacyContent() {
               <ul className="list-disc pl-5 mt-2 space-y-1">
                 <li>Répondre à vos demandes de renseignements ou de prestations.</li>
                 <li>Vous envoyer des informations concernant nos formations et expertises (si vous y avez consenti).</li>
-                <li>Améliorer l'expérience utilisateur et les performances de notre plateforme.</li>
+                <li>Améliorer l&apos;expérience utilisateur et les performances de notre plateforme.</li>
               </ul>
             </section>
 
@@ -70,7 +71,7 @@ export function PrivacyContent() {
                 3. Protection et partage des données
               </h2>
               <p>
-                Vos données personnelles sont strictly confidentielles. ALTIORA PREST s'engage à ne pas vendre, louer ou céder vos données à des tiers à des fins commerciales sans votre consentement préalable. Les données peuvent être partagées uniquement avec nos partenaires de confiance (comme E PREST SOLUTIONS) dans le cadre strict de l'exécution d'un service que vous avez demandé.
+                Vos données personnelles sont strictly confidentielles. ALTIORA PREST s&apos;engage à ne pas vendre, louer ou céder vos données à des tiers à des fins commerciales sans votre consentement préalable. Les données peuvent être partagées uniquement avec nos partenaires de confiance (comme E PREST SOLUTIONS) dans le cadre strict de l&apos;exécution d&apos;un service que vous avez demandé.
               </p>
             </section>
 
@@ -79,10 +80,10 @@ export function PrivacyContent() {
                 4. Vos droits
               </h2>
               <p>
-                Conformément aux réglementations en vigueur sur la protection des données personnelles, vous disposez d'un droit d'accès, de rectification, de suppression et d'opposition au traitement de vos données personnelles.
+                Conformément aux réglementations en vigueur sur la protection des données personnelles, vous disposez d&apos;un droit d&apos;accès, de rectification, de suppression et d&apos;opposition au traitement de vos données personnelles.
               </p>
               <p>
-                Pour exercer ces droits, vous pouvez nous contacter à l'adresse e-mail suivante : <strong>contact@altiora-prest.com</strong>.
+                Pour exercer ces droits, vous pouvez nous contacter à l&apos;adresse e-mail suivante : <strong>contact@altiora-prest.com</strong>.
               </p>
             </section>
 
@@ -91,7 +92,7 @@ export function PrivacyContent() {
                 5. Cookies
               </h2>
               <p>
-                Notre site peut utiliser des cookies pour améliorer la navigation et réaliser des statistiques de visites. Vous pouvez configurer votre navigateur pour refuser l'installation de ces cookies, bien que cela puisse altérer le fonctionnement de certains services du site.
+                Notre site peut utiliser des cookies pour améliorer la navigation et réaliser des statistiques de visites. Vous pouvez configurer votre navigateur pour refuser l&apos;installation de ces cookies, bien que cela puisse altérer le fonctionnement de certains services du site.
               </p>
             </section>
           </div>
