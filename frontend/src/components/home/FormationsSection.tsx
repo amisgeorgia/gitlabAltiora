@@ -92,7 +92,7 @@ export function FormationsSection() {
             <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-primary leading-[1.15]">
               Des formations conçues <br />
               pour{" "}
-              <span className="text-slate-400 font-medium">
+              <span className="text-slate-500 font-medium">
                 développer vos compétences
               </span>
             </h2>
@@ -141,7 +141,7 @@ export function FormationsSection() {
                 src={formation.image}
                 alt={formation.title}
                 fill
-                quality={90}
+                quality={85}
                 sizes="(max-width: 640px) 280px, (max-width: 1024px) 340px, 420px"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
