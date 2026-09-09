@@ -1,7 +1,7 @@
 # Audit Performance — Lighthouse
 
 > **Sprint 2** — Optimisation Lighthouse ≥ 90 sur les 4 axes  
-> Dernière mise à jour : 15 août 2026
+> Dernière mise à jour : 9 septembre 2026
 
 ---
 
@@ -65,26 +65,61 @@ npx lighthouse http://localhost:3000 \
 
 ## Exécution automatique en CI (GitLab)
 
-Le job `lighthouse` (stage `test`) s'exécute automatiquement **sur chaque Merge Request** (règle `$CI_PIPELINE_SOURCE == "merge_request_event"`), pour éviter de le lancer sur chaque commit et économiser des minutes CI.
+Le job `lighthouse` (stage `test`) s'exécute automatiquement :
+- sur les Merge Requests (`merge_request_event`) ;
+- sur la branche `develop` ;
+- sur la branche `main`.
+
+L'audit est réalisé sur un **build de production** du frontend afin d'éviter les mesures non représentatives du mode développement Next.js.
+
+### Stratégie de mesure
+
+Afin de limiter l'impact de la variabilité des runners CI sur le score Performance, Lighthouse est exécuté **3 fois**.
 
 Étapes automatisées :
-1. Build de production du frontend (`npm run build`)
-2. Démarrage du serveur (`npm start`)
-3. Audit Lighthouse (JSON + HTML)
-4. Vérification du seuil via `scripts/check-lighthouse-score.js` (seuil : **90/100** sur les 4 axes)
 
-Le job **échoue** si un score descend sous 90 — bloquant pour le merge (cohérent avec la règle "Pipelines doivent réussir").
+1. Installation de **Lighthouse 13.4.1** afin de garantir une version reproductible dans la CI.
+2. Build de production du frontend (`npm run build`).
+3. Démarrage du serveur (`npm start`).
+4. Exécution de **3 audits Lighthouse JSON** en mode desktop.
+5. Sélection du rapport ayant le **score Performance médian** via `scripts/select-lighthouse-median.js`.
+6. Création de `lighthouse-report.json` à partir du rapport médian.
+7. Génération du rapport HTML de diagnostic.
+8. Vérification du seuil via `scripts/check-lighthouse-score.js`.
 
-Les rapports (`lighthouse-report.json` / `.html`) sont conservés **1 semaine** en tant qu'artéfacts GitLab, téléchargeables depuis la page du job.
+Le seuil reste fixé à **90/100 sur les 4 axes** :
+- Performance ;
+- Accessibilité ;
+- Best Practices ;
+- SEO.
+
+Le job **échoue** si l'un des quatre scores du rapport sélectionné descend sous 90. Le seuil de qualité n'est donc pas abaissé : la stratégie à trois mesures vise uniquement à rendre la mesure Performance plus robuste face aux variations ponctuelles d'exécution en CI.
+
+### Artéfacts conservés
+
+Les fichiers suivants sont conservés pendant **1 semaine** :
+
+- `lighthouse-run-1.json`
+- `lighthouse-run-2.json`
+- `lighthouse-run-3.json`
+- `lighthouse-report.json`
+- `lighthouse-report.html`
+
+Les trois rapports bruts permettent de comparer les mesures en cas d'échec et de distinguer plus facilement une régression reproductible d'une variation ponctuelle du runner CI.
+
+> **Note :** le rapport HTML est généré par un audit séparé à des fins de diagnostic. Le résultat qui détermine le succès ou l'échec du job est `lighthouse-report.json`, sélectionné parmi les trois audits JSON.
 
 ---
 
 ## Que faire en cas d'échec
 
-1. Télécharger `lighthouse-report.html` depuis les artéfacts du job en échec.
-2. Ouvrir le fichier dans un navigateur pour voir le détail des points perdus.
-3. Corriger (image non optimisée, CSS bloquant, balise alt manquante, etc.).
-4. Repousser sur la même branche — le job se relance automatiquement.
+1. Consulter les scores affichés dans les logs du job Lighthouse.
+2. Télécharger les trois rapports bruts (`lighthouse-run-1.json`, `lighthouse-run-2.json`, `lighthouse-run-3.json`) afin de comparer les trois mesures.
+3. Consulter `lighthouse-report.json`, qui correspond au rapport médian utilisé pour valider le seuil des 4 axes.
+4. Ouvrir `lighthouse-report.html` pour analyser visuellement les recommandations Lighthouse. Ce rapport est généré séparément et sert uniquement au diagnostic.
+5. Si les trois mesures montrent une baisse similaire, rechercher une régression réelle dans l'application (TBT, LCP, JavaScript, images, accessibilité, etc.).
+6. Si une mesure est anormalement basse mais que les autres restent nettement supérieures, tenir compte d'une possible variabilité du runner CI avant de modifier le code applicatif.
+7. Après correction si nécessaire, repousser sur la même branche afin de relancer le pipeline.
 
 ---
 
@@ -94,6 +129,11 @@ Les rapports (`lighthouse-report.json` / `.html`) sont conservés **1 semaine** 
 |---|---|---|---|---|---|
 | 12/08/2026 | 62 | 100 | ❌ (échec) | 100 | Baseline en mode dev — non représentative (Turbopack/HMR/source maps) |
 | 13/08/2026 | 100 | 100 | 100 | 100 | Après corrections, mesuré sur build de production |
+| 08/09/2026 | 75–76 | 92 | 100 | 100 | Baisse CI observée sur `develop`, principalement liée au TBT |
+| 09/09/2026 | 96 | 96 | 100 | 100 | Test local de diagnostic avec ScrollReveal temporairement désactivé |
+| 09/09/2026 | 99 | 96 | 100 | 100 | Build local après correction : ScrollReveal conservé avec initialisation différée |
+| 09/09/2026 | 83 puis 96 | 92 | 100 | 100 | Même SHA de la MR !38 sur runners CI différents : variabilité confirmée |
+| 09/09/2026 | 84 | 92 | 100 | 100 | Pipeline `develop` après fusion de la MR !38 ; motivation de la stabilisation des mesures CI |
 
 ---
 
