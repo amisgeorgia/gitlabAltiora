@@ -73,11 +73,20 @@ export function ScrollRevealInit() {
           duration: 800,
         });
       } catch (error) {
-        console.error("Erreur lors de l'initialisation de ScrollReveal :", error);
+        console.error(
+          "Erreur lors de l'initialisation de ScrollReveal :",
+          error
+        );
       }
     };
 
-    initScrollReveal();
+    const timeoutId = setTimeout(() => {
+      initScrollReveal();
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   return null;
