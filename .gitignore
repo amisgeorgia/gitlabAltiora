@@ -15,3 +15,6 @@ venv/
 .DS_Store
 lighthouse-report.html
 lighthouse-report.json
+
+.coverage
+backend/.coverage

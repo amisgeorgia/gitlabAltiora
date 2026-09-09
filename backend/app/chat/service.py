@@ -3,7 +3,7 @@ from collections.abc import Iterator
 
 from sqlalchemy.orm import Session
 
-from app.chat.ai_client import AIClient, MockAIClient
+from app.chat.ai_client import AIClient, RAGChatClient
 from app.chat.repository import ChatRepository
 from app.chat.schemas import ChatRequest
 from app.models.enums import MessageRole
@@ -11,19 +11,16 @@ from app.models.enums import MessageRole
 
 class ChatService:
     """Coordinates persistence and an injectable conversational AI client."""
-
     def __init__(
         self,
         repository: ChatRepository | None = None,
         ai_client: AIClient | None = None,
     ) -> None:
         self._repository = repository or ChatRepository()
-        self._ai_client = ai_client or MockAIClient()
-
+        self._ai_client = ai_client or RAGChatClient()
     def stream_reply(self, database: Session, request: ChatRequest) -> Iterator[str]:
         conversation = self._get_or_create_conversation(database, request)
         self._repository.create_message(database, conversation.id, MessageRole.USER, request.message)
-
         try:
             assistant_reply = self._ai_client.generate_reply(request.message)
             self._repository.create_message(

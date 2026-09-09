@@ -57,3 +57,49 @@ def get_jwt_settings() -> JwtSettings:
         access_token_expire_minutes=int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "60")),
         password_reset_expire_minutes=int(os.getenv("PASSWORD_RESET_EXPIRE_MINUTES", "30")),
     )
+
+
+def get_voyage_api_key() -> str:
+    """Return the Voyage AI API key from the environment."""
+    api_key = os.getenv("VOYAGE_API_KEY")
+
+    if not api_key:
+        raise RuntimeError("VOYAGE_API_KEY must be configured")
+
+    return api_key
+
+
+def get_embedding_model() -> str:
+    """Return the configured embedding model."""
+    return os.getenv(
+        "VOYAGE_EMBEDDING_MODEL",
+        "voyage-4-large",
+    )
+
+
+def get_embedding_dimension() -> int:
+    """Return the configured embedding dimension."""
+    return int(
+        os.getenv(
+            "EMBEDDING_DIMENSION",
+            "1024",
+        )
+    )
+
+
+def get_gemini_api_key() -> str:
+    """Return the Gemini API key."""
+    api_key = os.getenv("GEMINI_API_KEY")
+
+    if not api_key:
+        raise RuntimeError("GEMINI_API_KEY must be configured")
+
+    return api_key
+
+
+def get_gemini_model() -> str:
+    """Return the configured Gemini LLM model."""
+    return os.getenv(
+        "GEMINI_MODEL",
+        "gemini-3.6-flash",
+    )
