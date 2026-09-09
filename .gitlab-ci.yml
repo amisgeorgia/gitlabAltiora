@@ -58,7 +58,7 @@ lighthouse:
   image: node:22-slim
   before_script:
     - apt-get update && apt-get install -y chromium curl
-    - npm install -g lighthouse
+    - npm install -g lighthouse@13.4.1
   script:
     - cd frontend
     - npm ci --cache .npm --prefer-offline
@@ -67,13 +67,18 @@ lighthouse:
     - sleep 15
     - curl -f http://localhost:3000 || exit 1
     - export CHROME_PATH=/usr/bin/chromium
-    - lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
+    - lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-run-1.json --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
+    - lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-run-2.json --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
+    - lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-run-3.json --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
+    - node ../scripts/select-lighthouse-median.js ./lighthouse-run-1.json ./lighthouse-run-2.json ./lighthouse-run-3.json
     - lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
-    - node ../scripts/check-lighthouse-score.js ./lighthouse-report.json
     - node ../scripts/check-lighthouse-score.js ./lighthouse-report.json
   artifacts:
     when: always
     paths:
+      - frontend/lighthouse-run-1.json
+      - frontend/lighthouse-run-2.json
+      - frontend/lighthouse-run-3.json
       - frontend/lighthouse-report.html
       - frontend/lighthouse-report.json
     expire_in: 1 week
