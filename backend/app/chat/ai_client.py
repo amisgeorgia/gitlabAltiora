@@ -1,6 +1,7 @@
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 
-from app.ai.rag import RAGPipeline
+if TYPE_CHECKING:
+    from app.ai.rag import RAGPipeline
 
 
 class AIClient(Protocol):
@@ -26,9 +27,13 @@ class RAGChatClient:
 
     def __init__(
         self,
-        rag_pipeline: RAGPipeline | None = None,
+        rag_pipeline: "RAGPipeline | None" = None,
     ) -> None:
-        self._rag_pipeline = rag_pipeline or RAGPipeline()
+        if rag_pipeline is None:
+            from app.ai.rag import RAGPipeline
+
+            rag_pipeline = RAGPipeline()
+        self._rag_pipeline = rag_pipeline
 
     def generate_reply(self, message: str) -> str:
         """Génère une réponse à partir du pipeline RAG."""
