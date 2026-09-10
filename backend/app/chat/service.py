@@ -10,7 +10,8 @@ from app.models.enums import MessageRole
 
 
 class ChatService:
-    """Coordinates persistence and an injectable conversational AI client."""
+    """Coordinates chat persistence and an injectable conversational AI client."""
+
     def __init__(
         self,
         repository: ChatRepository | None = None,
@@ -18,6 +19,7 @@ class ChatService:
     ) -> None:
         self._repository = repository or ChatRepository()
         self._ai_client = ai_client or RAGChatClient()
+
     def stream_reply(self, database: Session, request: ChatRequest) -> Iterator[str]:
         conversation = self._get_or_create_conversation(database, request)
         self._repository.create_message(database, conversation.id, MessageRole.USER, request.message)
