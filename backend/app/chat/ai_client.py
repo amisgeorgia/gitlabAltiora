@@ -1,7 +1,12 @@
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING, Callable, Protocol
 
 if TYPE_CHECKING:
     from app.ai.rag import RAGPipeline
+
+
+# Point d'injection conservé pour les tests. À l'exécution normale, le pipeline
+# reste importé seulement lorsqu'un client RAG est réellement demandé.
+RAGPipeline: Callable[[], "RAGPipeline"] | None = None
 
 
 class AIClient(Protocol):
@@ -30,9 +35,12 @@ class RAGChatClient:
         rag_pipeline: "RAGPipeline | None" = None,
     ) -> None:
         if rag_pipeline is None:
-            from app.ai.rag import RAGPipeline
+            pipeline_factory = RAGPipeline
+            if pipeline_factory is None:
+                from app.ai.rag import RAGPipeline as default_rag_pipeline
 
-            rag_pipeline = RAGPipeline()
+                pipeline_factory = default_rag_pipeline
+            rag_pipeline = pipeline_factory()
         self._rag_pipeline = rag_pipeline
 
     def generate_reply(self, message: str) -> str:
