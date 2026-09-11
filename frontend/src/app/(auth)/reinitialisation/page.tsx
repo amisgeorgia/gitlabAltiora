@@ -2,6 +2,7 @@
 
 import React, { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { AuthCardLayout } from "@/features/auth/components/AuthCardLayout";
 import { ResetPasswordForm } from "@/features/auth/components/ResetPasswordForm";
 
 function ResetPasswordContent() {
@@ -13,15 +14,12 @@ function ResetPasswordContent() {
 
 export default function ResetPasswordPage() {
   return (
-    <div className="space-y-6">
-      <div className="space-y-1 text-center">
-        <h1 className="text-2xl font-bold text-[#0B1F4D]">
-          Réinitialisation du mot de passe
-        </h1>
-        <p className="text-sm text-slate-600">
-          Choisissez un nouveau mot de passe sécurisé
-        </p>
-      </div>
+    <AuthCardLayout
+      leftTitle="Changer le mot de passe"
+      leftSubtitle="Ecrire votre nouveau mot de passe et le confirmer"
+      rightTitle="Créer un nouveau mot de passe"
+      rightSubtitle="Votre nouveau mot de passe doit être différent des mots de passe précédemment utilisés."
+    >
       <Suspense
         fallback={
           <div className="flex justify-center py-6">
@@ -31,6 +29,6 @@ export default function ResetPasswordPage() {
       >
         <ResetPasswordContent />
       </Suspense>
-    </div>
+    </AuthCardLayout>
   );
 }

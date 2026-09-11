@@ -1,10 +1,14 @@
 export const APP_NAME = "ALTIORA CONNECT";
 export const DEFAULT_PAGE_SIZE = 10;
 
-// À confirmer avec le Backend via OpenAPI avant activation du mode réel.
+// Endpoints authentification réels du backend FastAPI
 export const AUTH_ENDPOINTS = {
   login: "/auth/login",
-  forgotPassword: "/auth/forgot-password",
-  resetPassword: "/auth/reset-password",
-  me: "/auth/me",
+  passwordResetRequest: "/auth/password-reset/request",
+  passwordResetConfirm: "/auth/password-reset/confirm",
+
+  // Alias pour rétrocompatibilité
+  forgotPassword: "/auth/password-reset/request",
+  resetPassword: "/auth/password-reset/confirm",
 } as const;
+

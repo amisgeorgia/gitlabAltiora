@@ -33,13 +33,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = useCallback(async (credentials: LoginCredentials) => {
-    setIsLoading(true);
-    try {
-      const response = await authService.login(credentials);
-      setUser(response.user);
-    } finally {
-      setIsLoading(false);
-    }
+    const response = await authService.login(credentials);
+    setUser(response.user);
   }, []);
 
   const logout = useCallback(() => {
