@@ -6,7 +6,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
 import { AdminLayoutProvider } from "@/providers/AdminLayoutProvider";
-import { AuthProvider } from "@/providers/AuthProvider";
 
 function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -60,8 +59,6 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthProvider>
       <AdminLayoutContent>{children}</AdminLayoutContent>
-    </AuthProvider>
   );
 }

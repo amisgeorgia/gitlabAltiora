@@ -132,6 +132,7 @@ export function ResetPasswordForm({ token: initialToken }: { token?: string | nu
                 <input
                   id="reset-token"
                   type="text"
+                  autoComplete="off"
                   value={token}
                   onChange={(e) => setToken(e.target.value)}
                   placeholder="Jeton reçu par e-mail"
