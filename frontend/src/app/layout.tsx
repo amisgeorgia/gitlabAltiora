@@ -11,7 +11,7 @@ const manrope = localFont({
   src: "../../public/fonts/Manrope-VariableFont_wght.ttf",
   variable: "--font-manrope",
   display: "swap",
-  preload: false,
+  preload: true,
 });
 
 const baiJamjuree = localFont({

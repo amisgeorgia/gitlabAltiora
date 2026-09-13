@@ -1,13 +1,13 @@
-"use client";
-
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Mail, ArrowRight } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { isValidEmail } from "@/lib/validators";
 import { PasswordField } from "./PasswordField";
 import { AuthFeedback } from "./AuthFeedback";
 import { formatError } from "@/utils/format-error";
+import { cn } from "@/utils/cn";
 
 export function LoginForm() {
   const router = useRouter();
@@ -15,8 +15,6 @@ export function LoginForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [formError, setFormError] = useState("");
@@ -49,78 +47,105 @@ export function LoginForm() {
     setIsSubmitting(true);
 
     try {
-      await login({ email, password });
+      await login({ email: email.trim(), password });
       router.push("/admin");
     } catch (err) {
-      setFormError(formatError(err));
+      const msg = formatError(err);
+      if (
+        msg.toLowerCase().includes("invalide") ||
+        msg.toLowerCase().includes("incorrect") ||
+        msg.includes("401")
+      ) {
+        setFormError(
+          "Identifiants incorrects. Veuillez vérifier votre adresse e-mail ou votre mot de passe."
+        );
+      } else {
+        setFormError(msg);
+      }
+      setPassword("");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const hasCredentialsError = Boolean(formError);
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 text-left" noValidate>
+    <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-7 text-left" noValidate>
       {formError && <AuthFeedback type="error" message={formError} />}
 
-      <div className="flex flex-col gap-1 w-full">
-        <label htmlFor="email-input" className="text-sm font-medium text-[#0B1F4D]">
-          Adresse e-mail
-        </label>
-        <input
-          id="email-input"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          aria-invalid={!!emailError}
-          aria-describedby={emailError ? "email-error" : undefined}
-          placeholder="admin@altiora-connect.com"
-          className={`flex h-11 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0B1F4D] ${
-            emailError ? "border-red-500 focus:ring-red-500" : ""
-          }`}
-          disabled={isSubmitting}
-        />
-        {emailError && (
-          <span id="email-error" className="text-xs text-red-600 font-medium">
-            {emailError}
-          </span>
-        )}
-      </div>
+      {/* Groupe des champs */}
+      <div className="space-y-4">
+        {/* Champ Email */}
+        <div className="flex flex-col gap-1 w-full">
+          <div className="relative flex items-center">
+            <div className="absolute left-4 pointer-events-none text-slate-400">
+              <Mail className="w-4 h-4" />
+            </div>
+            <input
+              id="email-input"
+              type="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (emailError) setEmailError("");
+                if (formError) setFormError("");
+              }}
+              aria-invalid={!!emailError || hasCredentialsError}
+              aria-describedby={emailError ? "email-error" : undefined}
+              placeholder="admin123@gmail.com"
+              className={cn(
+                "h-12 w-full rounded-full border border-slate-200 bg-[#F8F9FA] pl-11 pr-5 py-2.5 text-sm text-[#0B1F4D] placeholder:text-slate-400 transition-all duration-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20 focus:border-[#D4AF37] disabled:cursor-not-allowed disabled:opacity-50",
+                (emailError || hasCredentialsError) &&
+                  "border-red-500 bg-red-50/20 focus:border-red-500 focus:ring-red-500/20"
+              )}
+              disabled={isSubmitting}
+            />
+          </div>
+          {emailError && (
+            <span id="email-error" className="text-xs text-red-600 font-medium pl-3">
+              {emailError}
+            </span>
+          )}
+        </div>
 
-      <PasswordField
-        id="password-login-input"
-        label="Mot de passe"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        error={passwordError}
-        disabled={isSubmitting}
-      />
-
-      <div className="flex items-center justify-between text-sm">
-        <label className="flex items-center gap-2 text-slate-700 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-            className="h-4 w-4 rounded border-slate-300 text-[#0B1F4D] focus:ring-[#0B1F4D]"
+        {/* Champ Mot de passe */}
+        <div className="flex flex-col gap-1 w-full">
+          <PasswordField
+            id="password-login-input"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              if (passwordError) setPasswordError("");
+              if (formError) setFormError("");
+            }}
+            placeholder="••••••••••••••••••••"
+            error={passwordError || (hasCredentialsError ? " " : undefined)}
             disabled={isSubmitting}
           />
-          Se souvenir de moi
-        </label>
-        <Link
-          href="/mot-de-passe-oublie"
-          className="font-medium text-[#0B1F4D] hover:underline"
-        >
-          Mot de passe oublié ?
-        </Link>
+        </div>
       </div>
 
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full h-11 rounded-md bg-[#0B1F4D] font-semibold text-white transition-colors hover:bg-[#071433] focus:outline-none focus:ring-2 focus:ring-[#D4AF37] disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {isSubmitting ? "Connexion en cours…" : "Se connecter"}
-      </button>
+      {/* Groupe Bouton & Lien */}
+      <div className="space-y-2.5">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full h-12 rounded-full bg-[#D4AF37] hover:bg-[#B88A1A] font-semibold text-white transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/40 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span>{isSubmitting ? "Connexion en cours…" : "Se connecter"}</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
+
+        <div className="flex justify-end pt-1">
+          <Link
+            href="/mot-de-passe-oublie"
+            className="text-xs font-normal text-slate-500 hover:text-[#0B1F4D] transition-colors cursor-pointer"
+          >
+            Mot de passe oublié ?
+          </Link>
+        </div>
+      </div>
     </form>
   );
 }

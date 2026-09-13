@@ -1,5 +1,4 @@
 import React from "react";
-import { AuthProvider } from "@/providers/AuthProvider";
 
 export default function AuthLayout({
   children,
@@ -7,12 +6,10 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthProvider>
-      <div className="flex min-h-screen items-center justify-center bg-slate-50 p-4">
-        <div className="w-full max-w-md rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
-          {children}
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-[#F8F9FA] p-4 sm:p-6 md:p-8 lg:p-12">
+      <div className="w-full flex justify-center">
+        {children}
       </div>
-    </AuthProvider>
+    </div>
   );
 }

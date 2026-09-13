@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Lock, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/utils/cn";
 
 export interface PasswordFieldProps
@@ -8,14 +9,17 @@ export interface PasswordFieldProps
   label?: string;
   error?: string;
   helperText?: string;
+  showIcon?: boolean;
 }
 
 export function PasswordField({
-  label = "Mot de passe",
+  label,
   error,
   helperText,
   className,
   id,
+  showIcon = true,
+  placeholder = "Mot de passe",
   ...props
 }: PasswordFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
@@ -33,24 +37,31 @@ export function PasswordField({
     .join(" ");
 
   return (
-    <div className="flex flex-col gap-1 w-full text-left">
+    <div className="flex flex-col gap-1.5 w-full text-left">
       {label && (
         <label
           htmlFor={inputId}
-          className="text-sm font-medium text-[#0B1F4D]"
+          className="text-xs font-semibold uppercase tracking-wider text-slate-600 pl-1"
         >
           {label}
         </label>
       )}
       <div className="relative flex items-center">
+        {showIcon && (
+          <div className="absolute left-4 pointer-events-none text-slate-400">
+            <Lock className="w-4 h-4" />
+          </div>
+        )}
         <input
           id={inputId}
           type={showPassword ? "text" : "password"}
           aria-invalid={!!error}
           aria-describedby={ariaDescribedBy || undefined}
+          placeholder={placeholder}
           className={cn(
-            "flex h-11 w-full rounded-md border border-slate-300 bg-white px-3 py-2 pr-10 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0B1F4D] disabled:cursor-not-allowed disabled:opacity-50",
-            error && "border-red-500 focus:ring-red-500",
+            "h-12 w-full rounded-full border border-slate-200 bg-[#F8F9FA] py-2.5 text-sm text-[#0B1F4D] placeholder:text-slate-400 transition-all duration-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/20 focus:border-[#D4AF37] disabled:cursor-not-allowed disabled:opacity-50",
+            showIcon ? "pl-11 pr-11" : "px-5 pr-11",
+            error && "border-red-500 bg-red-50/20 focus:border-red-500 focus:ring-red-500/20",
             className
           )}
           {...props}
@@ -63,18 +74,22 @@ export function PasswordField({
               ? "Masquer le mot de passe"
               : "Afficher le mot de passe"
           }
-          className="absolute right-3 text-slate-400 hover:text-slate-600 focus:outline-none text-xs font-semibold select-none"
+          className="absolute right-4 text-slate-400 hover:text-slate-600 focus:outline-none transition-colors p-1"
         >
-          {showPassword ? "Masquer" : "Afficher"}
+          {showPassword ? (
+            <EyeOff className="w-4 h-4" />
+          ) : (
+            <Eye className="w-4 h-4" />
+          )}
         </button>
       </div>
       {helperText && !error && (
-        <span id={helperId} className="text-xs text-slate-500">
+        <span id={helperId} className="text-xs text-slate-500 pl-3">
           {helperText}
         </span>
       )}
       {error && (
-        <span id={errorId} className="text-xs text-red-600 font-medium">
+        <span id={errorId} className="text-xs text-red-600 font-medium pl-3">
           {error}
         </span>
       )}

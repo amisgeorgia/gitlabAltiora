@@ -6,17 +6,18 @@ import { useAuth } from "@/hooks/useAuth";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { AdminHeader } from "@/components/layout/AdminHeader";
 import { AdminLayoutProvider } from "@/providers/AdminLayoutProvider";
-import { AuthProvider } from "@/providers/AuthProvider";
 
 function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
+
+  const isAuthorized = isAuthenticated && user?.role === "admin";
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!isLoading && !isAuthorized) {
       router.push("/connexion");
     }
-  }, [isLoading, isAuthenticated, router]);
+  }, [isLoading, isAuthorized, router]);
 
   if (isLoading) {
     return (
@@ -29,9 +30,10 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthorized) {
     return null;
   }
+
 
   return (
     <AdminLayoutProvider>
@@ -57,8 +59,6 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthProvider>
       <AdminLayoutContent>{children}</AdminLayoutContent>
-    </AuthProvider>
   );
 }

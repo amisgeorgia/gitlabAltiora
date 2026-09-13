@@ -3,9 +3,12 @@ import { AUTH_ENDPOINTS } from "@/lib/constants";
 import { apiClient } from "@/lib/api-client";
 import {
   AuthUser,
+  BackendLoginResponse,
   LoginCredentials,
   LoginResponse,
-  ForgotPasswordPayload,
+  MessageResponse,
+  PasswordResetConfirmRequest,
+  PasswordResetRequest,
   ResetPasswordPayload,
 } from "@/types/auth.types";
 import { authStorage } from "../utils/auth-storage";
@@ -13,10 +16,10 @@ import { validatePasswordRules } from "../utils/password-validation";
 
 export const MOCK_ADMIN_USER: AuthUser = {
   id: "admin-001",
-  firstName: "Administrateur",
-  lastName: "ALTIORA",
   email: "admin@altiora-connect.com",
   role: "admin",
+  firstName: "Administrateur",
+  lastName: "ALTIORA",
 };
 
 export const MOCK_ACCESS_TOKEN = "mock-access-token-altiora";
@@ -45,11 +48,21 @@ export const authService = {
       throw new Error("E-mail ou mot de passe incorrect.");
     }
 
-    // Futur appel API réel
-    const response = await apiClient<LoginResponse>(AUTH_ENDPOINTS.login, {
+    // Appel API réel FastAPI POST /auth/login
+    const backendResponse = await apiClient<BackendLoginResponse>(AUTH_ENDPOINTS.login, {
       method: "POST",
-      body: JSON.stringify(credentials),
+      body: JSON.stringify({
+        email: credentials.email.trim().toLowerCase(),
+        password: credentials.password,
+      }),
     });
+
+    const response: LoginResponse = {
+      accessToken: backendResponse.access_token,
+      tokenType: backendResponse.token_type,
+      user: backendResponse.user,
+    };
+
     authStorage.setAccessToken(response.accessToken);
     authStorage.setUser(response.user);
     return response;
@@ -59,7 +72,7 @@ export const authService = {
     authStorage.clearSession();
   },
 
-  async forgotPassword(payload: ForgotPasswordPayload): Promise<{ message: string }> {
+  async requestPasswordReset(payload: PasswordResetRequest): Promise<MessageResponse> {
     if (env.useMockApi) {
       await mockDelay(400);
       return {
@@ -67,28 +80,30 @@ export const authService = {
       };
     }
 
-    return apiClient<{ message: string }>(AUTH_ENDPOINTS.forgotPassword, {
+    // Appel API réel FastAPI POST /auth/password-reset/request
+    return apiClient<MessageResponse>(AUTH_ENDPOINTS.passwordResetRequest, {
       method: "POST",
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        email: payload.email.trim().toLowerCase(),
+      }),
     });
   },
 
-  async resetPassword(payload: ResetPasswordPayload): Promise<{ message: string }> {
-    const { password, confirmPassword } = payload;
+  // Alias pour rétrocompatibilité avec les formulaires existants
+  async forgotPassword(payload: PasswordResetRequest): Promise<MessageResponse> {
+    return this.requestPasswordReset(payload);
+  },
 
-    if (!password) {
+  async confirmPasswordReset(payload: PasswordResetConfirmRequest): Promise<MessageResponse> {
+    if (!payload.new_password) {
       throw new Error("Veuillez saisir votre nouveau mot de passe.");
     }
 
-    const rules = validatePasswordRules(password);
+    const rules = validatePasswordRules(payload.new_password);
     if (!rules.isValid) {
       throw new Error(
         "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre."
       );
-    }
-
-    if (password !== confirmPassword) {
-      throw new Error("Les mots de passe ne correspondent pas.");
     }
 
     if (env.useMockApi) {
@@ -98,24 +113,40 @@ export const authService = {
       };
     }
 
-    return apiClient<{ message: string }>(AUTH_ENDPOINTS.resetPassword, {
+    // Appel API réel FastAPI POST /auth/password-reset/confirm
+    return apiClient<MessageResponse>(AUTH_ENDPOINTS.passwordResetConfirm, {
       method: "POST",
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        token: payload.token,
+        new_password: payload.new_password,
+      }),
+    });
+  },
+
+  // Utilisé par le formulaire UI existant ResetPasswordForm
+  async resetPassword(payload: ResetPasswordPayload): Promise<MessageResponse> {
+    const { password, confirmPassword, token } = payload;
+
+    if (password !== confirmPassword) {
+      throw new Error("Les mots de passe ne correspondent pas.");
+    }
+
+    return this.confirmPasswordReset({
+      token,
+      new_password: password,
     });
   },
 
   async getCurrentUser(): Promise<AuthUser | null> {
-    if (env.useMockApi) {
-      return authStorage.getUser();
-    }
+    const user = authStorage.getUser();
+    const token = authStorage.getAccessToken();
 
-    try {
-      const user = await apiClient<AuthUser>(AUTH_ENDPOINTS.me);
-      authStorage.setUser(user);
-      return user;
-    } catch {
+    if (!user || !token) {
       authStorage.clearSession();
       return null;
     }
+
+    return user;
   },
 };
+

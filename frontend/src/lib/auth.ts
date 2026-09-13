@@ -1,4 +1,5 @@
 import { User } from "@/types/common.types";
+import { authStorage } from "@/features/auth/utils/auth-storage";
 
 export interface AuthSession {
   user: User | null;
@@ -6,9 +7,9 @@ export interface AuthSession {
 }
 
 export function getStoredSession(): AuthSession {
-  if (typeof window === "undefined") {
-    return { user: null, token: null };
-  }
-  const token = localStorage.getItem("auth_token");
-  return { user: null, token };
+  return {
+    user: authStorage.getUser(),
+    token: authStorage.getAccessToken(),
+  };
 }
+
