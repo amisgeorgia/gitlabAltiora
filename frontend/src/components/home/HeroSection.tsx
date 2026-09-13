@@ -43,7 +43,7 @@ export function HeroSection() {
         <div className=" pt-6 flex flex-col md:flex-row items-start md:items-end justify-between gap-8 md:gap-8 lg:gap-16">
           
           {/* Left Column: Description Paragraph & Cabinet Button */}
-          <div className="flex flex-col items-start gap-6 sm:gap-8 max-w-3xl md:max-w-[420px] lg:max-w-xl xl:max-w-3xl sr-fade-left">
+          <div className="flex flex-col items-start gap-6 sm:gap-8 max-w-3xl md:max-w-[420px] lg:max-w-xl xl:max-w-3xl">
             <p className="text-base sm:text-xl text-slate-200/90 font-normal leading-relaxed">
               Né de la vision d’un cabinet de conseil et de formation d’excellence, ALTIORA PREST incarne la synergie entre stratégie d’entreprise, performance opérationnelle et innovation technologique.
             </p>
