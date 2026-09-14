@@ -17,11 +17,20 @@ class AuthConfigurationError(RuntimeError):
     """Raised when required authentication settings are absent."""
 
 
+class QrConfigurationError(RuntimeError):
+    """Raised when required QR settings are absent."""
+
+
 @dataclass(frozen=True)
 class JwtSettings:
     secret_key: str
     access_token_expire_minutes: int
     password_reset_expire_minutes: int
+
+
+@dataclass(frozen=True)
+class QrSettings:
+    redirect_base_url: str
 
 
 def get_database_url() -> str:
@@ -57,6 +66,14 @@ def get_jwt_settings() -> JwtSettings:
         access_token_expire_minutes=int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "60")),
         password_reset_expire_minutes=int(os.getenv("PASSWORD_RESET_EXPIRE_MINUTES", "30")),
     )
+
+
+def get_qr_settings() -> QrSettings:
+    redirect_base_url = os.getenv("QR_REDIRECT_BASE_URL")
+    if not redirect_base_url:
+        raise QrConfigurationError("QR redirect base URL must be configured")
+
+    return QrSettings(redirect_base_url=redirect_base_url.rstrip("/"))
 
 
 def get_voyage_api_key() -> str:
