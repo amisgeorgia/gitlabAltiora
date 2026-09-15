@@ -11,6 +11,8 @@ variables:
 lint-backend:
   stage: lint
   image: python:3.10-slim
+  tags:
+    - self-hosted
   script:
     - pip install ruff
     - ruff check backend
