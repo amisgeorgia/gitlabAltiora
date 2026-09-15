@@ -20,6 +20,8 @@ lint-backend:
 lint-frontend:
   stage: lint
   image: node:22-alpine
+  tags:
+    - self-hosted
   script:
     - cd frontend
     - npm ci
@@ -30,6 +32,8 @@ lint-frontend:
 test-backend:
   stage: test
   image: python:3.10-slim
+  tags:
+    - self-hosted
   services:
     - name: pgvector/pgvector:pg15
       alias: postgres
@@ -50,6 +54,8 @@ test-backend:
 test-frontend:
   stage: test
   image: node:22-alpine
+  tags:
+    - self-hosted
   script:
     - cd frontend
     - npm ci
@@ -58,6 +64,8 @@ test-frontend:
 lighthouse:
   stage: test
   image: node:22-slim
+  tags:
+    - self-hosted
   before_script:
     - apt-get update && apt-get install -y chromium curl
     - npm install -g lighthouse@13.4.1
