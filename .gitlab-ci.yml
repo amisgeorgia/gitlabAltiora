@@ -102,7 +102,7 @@ lighthouse:
 
 build-backend:
   stage: build
-  image: docker:24
+  image: docker:29
   tags:
     - self-hosted
   script:
