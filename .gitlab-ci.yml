@@ -87,8 +87,19 @@ lighthouse:
     - npm ci
     - npm run build
     - npm start &
-    - sleep 15
-    - curl -f http://localhost:3000 || exit 1
+    - |
+      for i in $(seq 1 30); do
+        if curl -fsS -o /dev/null http://localhost:3000; then
+          echo "Next.js ready"
+          break
+        fi
+        if [ "$i" -eq 30 ]; then
+          echo "Next.js failed to start"
+          exit 1
+        fi
+        sleep 1
+      done
+    - sleep 5
     - export CHROME_PATH=/usr/bin/chromium
     - lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-run-1.json --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
     - lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-run-2.json --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
