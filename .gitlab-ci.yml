@@ -64,7 +64,7 @@ test-frontend:
   tags:
     - self-hosted-windows
   script:
-    - '& "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe" run --rm -v "${CI_PROJECT_DIR}:/app" -w /app/frontend node:22-alpine sh -c "npm ci && npm run test -- --pool=threads"'
+    - '& "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe" run --rm -v "${CI_PROJECT_DIR}:/app" -w /app/frontend node:22-alpine sh -c "npm ci && npm run test -- --pool=threads --maxWorkers=1"'
 
 lighthouse:
   stage: test
