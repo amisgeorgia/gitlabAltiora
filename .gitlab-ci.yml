@@ -159,7 +159,7 @@ build-frontend:
 # ---------- test minimal du runner Windows ----------
 
 windows-runner-check:
-  stage: test
+  stage: lint
   rules:
     - if: '$CI_COMMIT_MESSAGE =~ /\[windows-check\]/'
   tags:
