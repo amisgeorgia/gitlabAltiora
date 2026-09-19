@@ -5,6 +5,7 @@ from app.auth.router import router as auth_router
 from app.chat.history_router import router as conversation_history_router
 from app.chat.router import router as chat_router
 from app.contacts.router import router as contacts_router
+from app.qr.router import router as qr_router
 
 app = FastAPI(
     title="ALTIORA CONNECT API",
@@ -22,6 +23,7 @@ app.include_router(contacts_router)
 app.include_router(chat_router)
 app.include_router(auth_router)
 app.include_router(conversation_history_router)
+app.include_router(qr_router)
 
 
 @app.get("/health")

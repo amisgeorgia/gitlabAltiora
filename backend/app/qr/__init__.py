@@ -1,0 +1,1 @@
+"""QR dynamic code module."""
