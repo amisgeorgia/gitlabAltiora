@@ -30,13 +30,10 @@ lint-backend:
 
 lint-frontend:
   stage: lint
-  image: node:22-alpine
   tags:
-    - self-hosted
+    - self-hosted-windows
   script:
-    - cd frontend
-    - npm ci
-    - npm run lint
+    - '& "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe" run --rm -v "${CI_PROJECT_DIR}:/app" -w /app/frontend node:22-alpine sh -c "npm ci && npm run lint"'
 
 # ---------- TESTS ----------
 
