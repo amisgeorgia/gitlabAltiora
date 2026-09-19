@@ -76,12 +76,12 @@ test-frontend:
 
 lighthouse:
   stage: test
-  image: node:22-slim
+  image:
+    name: altiora-lighthouse:13.4.1
+    entrypoint: [""]
+    pull_policy: if-not-present
   tags:
     - self-hosted
-  before_script:
-    - apt-get update && apt-get install -y chromium curl
-    - npm install -g lighthouse@13.4.1
   script:
     - cd frontend
     - npm ci
