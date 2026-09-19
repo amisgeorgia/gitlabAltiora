@@ -92,7 +92,7 @@ lighthouse:
     # Node.js 22 portable
     - '$env:Path = "D:\node22\node-v22.23.2-win-x64;" + $env:Path'
     - 'node --version'
-    - 'lighthouse --version'
+    - '& "C:\Users\fenosoa\AppData\Roaming\npm\lighthouse.cmd" --version'
 
     # Build production propre
     - 'cd frontend'
@@ -100,10 +100,9 @@ lighthouse:
     - 'npm ci'
     - 'npm run build'
 
-    # Démarrage de Next.js
-    - '$server = Start-Process -FilePath "npm.cmd" -ArgumentList "start" -PassThru -NoNewWindow; $server.Id | Out-File -FilePath "$env:CI_PROJECT_DIR\next-server.pid" -Encoding ascii'
-
-    # Attendre réellement que Next.js soit prêt
+    # Démarrage de Next.js sur 3000
+    - '$server = Start-Process -FilePath "node.exe" -ArgumentList @(".\node_modules\next\dist\bin\next","start","-p","3000") -PassThru -NoNewWindow; $server.Id | Out-File -FilePath "$env:CI_PROJECT_DIR\next-server.pid" -Encoding ascii'
+    # Attendre que Next.js soit prêt
     - |
       $ready = $false
       for ($i = 1; $i -le 30; $i++) {
@@ -127,27 +126,27 @@ lighthouse:
     - 'Start-Sleep -Seconds 5'
 
     # 3 audits Lighthouse
-    - 'lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-run-1.json --chrome-path="C:/Program Files/Google/Chrome/Application/chrome.exe" --chrome-flags="--headless --disable-gpu --no-sandbox" --preset=desktop'
-    - 'lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-run-2.json --chrome-path="C:/Program Files/Google/Chrome/Application/chrome.exe" --chrome-flags="--headless --disable-gpu --no-sandbox" --preset=desktop'
-    - 'lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-run-3.json --chrome-path="C:/Program Files/Google/Chrome/Application/chrome.exe" --chrome-flags="--headless --disable-gpu --no-sandbox" --preset=desktop'
+    - '& "C:\Users\fenosoa\AppData\Roaming\npm\lighthouse.cmd" http://localhost:3000 --output=json --output-path=./lighthouse-run-1.json --chrome-path="C:/Program Files/Google/Chrome/Application/chrome.exe" --chrome-flags="--headless --disable-gpu --no-sandbox" --preset=desktop'
+    - '& "C:\Users\fenosoa\AppData\Roaming\npm\lighthouse.cmd" http://localhost:3000 --output=json --output-path=./lighthouse-run-2.json --chrome-path="C:/Program Files/Google/Chrome/Application/chrome.exe" --chrome-flags="--headless --disable-gpu --no-sandbox" --preset=desktop'
+    - '& "C:\Users\fenosoa\AppData\Roaming\npm\lighthouse.cmd" http://localhost:3000 --output=json --output-path=./lighthouse-run-3.json --chrome-path="C:/Program Files/Google/Chrome/Application/chrome.exe" --chrome-flags="--headless --disable-gpu --no-sandbox" --preset=desktop'
 
     # Sélection de la médiane
     - 'node ../scripts/select-lighthouse-median.js ./lighthouse-run-1.json ./lighthouse-run-2.json ./lighthouse-run-3.json'
 
     # Rapport HTML
-    - 'lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html --chrome-path="C:/Program Files/Google/Chrome/Application/chrome.exe" --chrome-flags="--headless --disable-gpu --no-sandbox" --preset=desktop'
+    - '& "C:\Users\fenosoa\AppData\Roaming\npm\lighthouse.cmd" http://localhost:3000 --output=html --output-path=./lighthouse-report.html --chrome-path="C:/Program Files/Google/Chrome/Application/chrome.exe" --chrome-flags="--headless --disable-gpu --no-sandbox" --preset=desktop'
 
     # Seuil Performance >= 90
     - 'node ../scripts/check-lighthouse-score.js ./lighthouse-report.json'
 
   after_script:
-  - |
-    $pidFile = "$env:CI_PROJECT_DIR\next-server.pid"
-    if (Test-Path $pidFile) {
-      $serverPid = Get-Content $pidFile
-      Stop-Process -Id $serverPid -Force -ErrorAction SilentlyContinue
-      Remove-Item $pidFile -Force -ErrorAction SilentlyContinue
-    }
+    - |
+      $pidFile = "$env:CI_PROJECT_DIR\next-server.pid"
+      if (Test-Path $pidFile) {
+        $serverPid = Get-Content $pidFile
+        Stop-Process -Id $serverPid -Force -ErrorAction SilentlyContinue
+        Remove-Item $pidFile -Force -ErrorAction SilentlyContinue
+      }
 
   artifacts:
     when: always
