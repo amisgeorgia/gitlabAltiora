@@ -139,6 +139,15 @@ lighthouse:
     # Seuil Performance >= 90
     - 'node ../scripts/check-lighthouse-score.js ./lighthouse-report.json'
 
+    # Arrêt propre du serveur Next.js
+    - |
+      $pidFile = "$env:CI_PROJECT_DIR\next-server.pid"
+      if (Test-Path $pidFile) {
+        $serverPid = Get-Content $pidFile
+        Stop-Process -Id $serverPid -Force -ErrorAction SilentlyContinue
+        Remove-Item $pidFile -Force -ErrorAction SilentlyContinue
+      }
+
   after_script:
     - |
       $pidFile = "$env:CI_PROJECT_DIR\next-server.pid"
@@ -168,13 +177,13 @@ lighthouse:
 
 build-backend:
   stage: build
-  image: docker:29
   tags:
-    - self-hosted
+    - self-hosted-windows
   script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - docker build -t "$CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA" ./backend
-    - docker push "$CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA"
+    - '$docker = "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe"'
+    - '$env:CI_REGISTRY_PASSWORD | & $docker login -u $env:CI_REGISTRY_USER --password-stdin $env:CI_REGISTRY'
+    - '& $docker build -t "$env:CI_REGISTRY_IMAGE/backend:$env:CI_COMMIT_SHORT_SHA" ./backend'
+    - '& $docker push "$env:CI_REGISTRY_IMAGE/backend:$env:CI_COMMIT_SHORT_SHA"'
   rules:
     - if: $CI_COMMIT_BRANCH == "test/self-hosted-runner"
       when: always
@@ -184,13 +193,13 @@ build-backend:
 
 build-frontend:
   stage: build
-  image: docker:24
   tags:
-    - self-hosted
+    - self-hosted-windows
   script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - docker build -t "$CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA" ./frontend
-    - docker push "$CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA"
+    - '$docker = "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe"'
+    - '$env:CI_REGISTRY_PASSWORD | & $docker login -u $env:CI_REGISTRY_USER --password-stdin $env:CI_REGISTRY'
+    - '& $docker build -t "$env:CI_REGISTRY_IMAGE/frontend:$env:CI_COMMIT_SHORT_SHA" ./frontend'
+    - '& $docker push "$env:CI_REGISTRY_IMAGE/frontend:$env:CI_COMMIT_SHORT_SHA"'
   rules:
     - if: $CI_COMMIT_BRANCH == "test/self-hosted-runner"
       when: always
