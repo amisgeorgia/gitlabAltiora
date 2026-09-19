@@ -81,7 +81,7 @@ test-frontend:
     - 'node --version'
     - 'cd frontend'
     - 'npm ci'
-    - 'npm run test'
+    - 'npm run test -- --pool=threads'
 
 lighthouse:
   stage: test
