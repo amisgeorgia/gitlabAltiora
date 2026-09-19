@@ -168,8 +168,8 @@ windows-runner-check:
     - Write-Host "=== USER ==="
     - whoami
     - Write-Host "=== DOCKER VERSION ==="
-    - docker version
+    - '& "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe" version'
     - Write-Host "=== DOCKER OS ==="
-    - docker info --format "{{.OSType}}"
+    - '& "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe" info --format "{{.OSType}}"'
     - Write-Host "=== LINUX CONTAINER ==="
-    - docker run --rm node:22-alpine node --version
+    - '& "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe" run --rm node:22-alpine node --version'
