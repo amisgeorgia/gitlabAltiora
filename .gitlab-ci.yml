@@ -23,12 +23,10 @@ cache:
 
 lint-backend:
   stage: lint
-  image: python:3.10-slim
   tags:
-    - self-hosted
+    - self-hosted-windows
   script:
-    - pip install ruff
-    - ruff check backend
+    - '& "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe" run --rm -v "${CI_PROJECT_DIR}:/app" -w /app python:3.10-slim sh -c "pip install ruff && ruff check backend"'
 
 lint-frontend:
   stage: lint
