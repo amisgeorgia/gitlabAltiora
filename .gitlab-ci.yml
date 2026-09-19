@@ -43,24 +43,33 @@ lint-frontend:
 
 test-backend:
   stage: test
-  image: python:3.10-slim
   tags:
-    - self-hosted
-  services:
-    - name: pgvector/pgvector:pg15
-      alias: postgres
-  variables:
-    POSTGRES_USER: test
-    POSTGRES_PASSWORD: test
-    POSTGRES_DB: test_db
-    DATABASE_URL: postgresql://test:test@postgres:5432/test_db
+    - self-hosted-windows
   script:
-    - cd backend
-    - pip install -r requirements.txt
-    - pip install pytest coverage
-    - alembic upgrade head
-    - coverage run -m pytest
-    - coverage report --fail-under=70
+    - '$docker = "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe"'
+    - '$network = "backend-test-$env:CI_JOB_ID"'
+    - '$postgres = "postgres-test-$env:CI_JOB_ID"'
+    - '& $docker network create $network'
+    - '& $docker run -d --name $postgres --network $network --network-alias postgres -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -e POSTGRES_DB=test_db pgvector/pgvector:pg15'
+    - |
+      for ($i = 1; $i -le 30; $i++) {
+        & $docker exec $postgres pg_isready -U test -d test_db
+        if ($LASTEXITCODE -eq 0) {
+          Write-Host "PostgreSQL ready"
+          break
+        }
+        if ($i -eq 30) {
+          throw "PostgreSQL failed to start"
+        }
+        Start-Sleep -Seconds 2
+      }
+    - '& $docker run --rm --network $network -v "${env:CI_PROJECT_DIR}:/app" -w /app/backend -e DATABASE_URL=postgresql://test:test@postgres:5432/test_db python:3.10-slim sh -c "pip install -r requirements.txt && pip install pytest coverage && alembic upgrade head && coverage run -m pytest && coverage report --fail-under=70"'
+  after_script:
+    - '$docker = "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe"'
+    - '$postgres = "postgres-test-$env:CI_JOB_ID"'
+    - '$network = "backend-test-$env:CI_JOB_ID"'
+    - '& $docker rm -f $postgres 2>$null'
+    - '& $docker network rm $network 2>$null'
   coverage: '/TOTAL.*\s+(\d+%)$/'
 
 test-frontend:
