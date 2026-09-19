@@ -155,3 +155,21 @@ build-frontend:
     - if: $CI_COMMIT_BRANCH == "main"
     - if: $CI_COMMIT_BRANCH == "develop"
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+# ---------- test minimal du runner Windows ----------
+
+windows-runner-check:
+  stage: test
+  rules:
+    - if: '$CI_COMMIT_MESSAGE =~ /\[windows-check\]/'
+  tags:
+    - self-hosted-windows
+  script:
+    - Write-Host "=== USER ==="
+    - whoami
+    - Write-Host "=== DOCKER VERSION ==="
+    - docker version
+    - Write-Host "=== DOCKER OS ==="
+    - docker info --format "{{.OSType}}"
+    - Write-Host "=== LINUX CONTAINER ==="
+    - docker run --rm node:22-alpine node --version
