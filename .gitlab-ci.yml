@@ -5,74 +5,158 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
+  NPM_CONFIG_CACHE: "$CI_PROJECT_DIR/.npm"
+  NPM_CONFIG_PREFER_OFFLINE: "true"
+  NPM_CONFIG_FETCH_RETRIES: "5"
+  NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: "20000"
+  NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT: "120000"
+
+cache:
+  key:
+    files:
+      - frontend/package-lock.json
+  paths:
+    - .npm/
+  policy: pull-push
 
 # ---------- LINT ----------
 
 lint-backend:
   stage: lint
-  image: python:3.10-slim
+  tags:
+    - self-hosted-windows
   script:
-    - pip install ruff
-    - ruff check backend
+    - '& "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe" run --rm -v "${CI_PROJECT_DIR}:/app" -w /app python:3.10-slim sh -c "pip install ruff && ruff check backend"'
 
 lint-frontend:
   stage: lint
-  image: node:22-alpine
+  tags:
+    - self-hosted-windows
   script:
-    - cd frontend
-    - npm ci
-    - npm run lint
+    - '$env:Path = "D:\node22\node-v22.23.2-win-x64;" + $env:Path'
+    - 'node --version'
+    - 'cd frontend'
+    - 'npm ci'
+    - 'npm run lint'
 
 # ---------- TESTS ----------
 
 test-backend:
   stage: test
-  image: python:3.10-slim
-  services:
-    - name: pgvector/pgvector:pg15
-      alias: postgres
-  variables:
-    POSTGRES_USER: test
-    POSTGRES_PASSWORD: test
-    POSTGRES_DB: test_db
-    DATABASE_URL: postgresql://test:test@postgres:5432/test_db
+  tags:
+    - self-hosted-windows
   script:
-    - cd backend
-    - pip install -r requirements.txt
-    - pip install pytest coverage
-    - alembic upgrade head
-    - coverage run -m pytest
-    - coverage report --fail-under=70
+    - '$docker = "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe"'
+    - '$network = "backend-test-$env:CI_JOB_ID"'
+    - '$postgres = "postgres-test-$env:CI_JOB_ID"'
+    - '& $docker network create $network'
+    - '& $docker run -d --name $postgres --network $network --network-alias postgres -e POSTGRES_USER=test -e POSTGRES_PASSWORD=test -e POSTGRES_DB=test_db pgvector/pgvector:pg15'
+    - |
+      for ($i = 1; $i -le 30; $i++) {
+        & $docker exec $postgres pg_isready -U test -d test_db
+        if ($LASTEXITCODE -eq 0) {
+          Write-Host "PostgreSQL ready"
+          break
+        }
+        if ($i -eq 30) {
+          throw "PostgreSQL failed to start"
+        }
+        Start-Sleep -Seconds 2
+      }
+    - '& $docker run --rm --network $network -v "${env:CI_PROJECT_DIR}:/app" -w /app/backend -e DATABASE_URL=postgresql://test:test@postgres:5432/test_db python:3.10-slim sh -c "pip install -r requirements.txt && pip install pytest coverage && alembic upgrade head && coverage run -m pytest && coverage report --fail-under=70"'
+  after_script:
+    - '$docker = "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe"'
+    - '$postgres = "postgres-test-$env:CI_JOB_ID"'
+    - '$network = "backend-test-$env:CI_JOB_ID"'
+    - '& $docker rm -f $postgres 2>$null'
+    - '& $docker network rm $network 2>$null'
   coverage: '/TOTAL.*\s+(\d+%)$/'
 
 test-frontend:
   stage: test
-  image: node:22-alpine
+  tags:
+    - self-hosted-windows
   script:
-    - cd frontend
-    - npm ci
-    - npm run test
+    - '$env:Path = "D:\node22\node-v22.23.2-win-x64;" + $env:Path'
+    - 'node --version'
+    - 'cd frontend'
+    - 'npm ci'
+    - 'npm run test -- --pool=threads --maxWorkers=1'
 
 lighthouse:
   stage: test
-  image: node:22-slim
-  before_script:
-    - apt-get update && apt-get install -y chromium curl
-    - npm install -g lighthouse@13.4.1
+  tags:
+    - self-hosted-windows
+
   script:
-    - cd frontend
-    - npm ci --cache .npm --prefer-offline
-    - npm run build
-    - npm start &
-    - sleep 15
-    - curl -f http://localhost:3000 || exit 1
-    - export CHROME_PATH=/usr/bin/chromium
-    - lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-run-1.json --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
-    - lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-run-2.json --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
-    - lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-run-3.json --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
-    - node ../scripts/select-lighthouse-median.js ./lighthouse-run-1.json ./lighthouse-run-2.json ./lighthouse-run-3.json
-    - lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html --chrome-flags="--headless --no-sandbox --disable-gpu" --preset=desktop
-    - node ../scripts/check-lighthouse-score.js ./lighthouse-report.json
+    # Node.js 22 portable
+    - '$env:Path = "D:\node22\node-v22.23.2-win-x64;" + $env:Path'
+    - 'node --version'
+    - '& "C:\Users\fenosoa\AppData\Roaming\npm\lighthouse.cmd" --version'
+
+    # Build production propre
+    - 'cd frontend'
+    - 'if (Test-Path .next) { Remove-Item -Recurse -Force .next }'
+    - 'npm ci'
+    - 'npm run build'
+
+    # Démarrage de Next.js sur 3000
+    - '$server = Start-Process -FilePath "node.exe" -ArgumentList @(".\node_modules\next\dist\bin\next","start","-p","3000") -PassThru -NoNewWindow; $server.Id | Out-File -FilePath "$env:CI_PROJECT_DIR\next-server.pid" -Encoding ascii'
+    # Attendre que Next.js soit prêt
+    - |
+      $ready = $false
+      for ($i = 1; $i -le 30; $i++) {
+        try {
+          $response = Invoke-WebRequest -Uri "http://localhost:3000" -UseBasicParsing -TimeoutSec 2
+          if ($response.StatusCode -eq 200) {
+            Write-Host "Next.js ready"
+            $ready = $true
+            break
+          }
+        }
+        catch {
+          Start-Sleep -Seconds 1
+        }
+      }
+
+      if (-not $ready) {
+        throw "Next.js failed to start"
+      }
+
+    - 'Start-Sleep -Seconds 5'
+
+    # 3 audits Lighthouse
+    - '& "C:\Users\fenosoa\AppData\Roaming\npm\lighthouse.cmd" http://localhost:3000 --output=json --output-path=./lighthouse-run-1.json --chrome-path="C:/Program Files/Google/Chrome/Application/chrome.exe" --chrome-flags="--headless --disable-gpu --no-sandbox" --preset=desktop'
+    - '& "C:\Users\fenosoa\AppData\Roaming\npm\lighthouse.cmd" http://localhost:3000 --output=json --output-path=./lighthouse-run-2.json --chrome-path="C:/Program Files/Google/Chrome/Application/chrome.exe" --chrome-flags="--headless --disable-gpu --no-sandbox" --preset=desktop'
+    - '& "C:\Users\fenosoa\AppData\Roaming\npm\lighthouse.cmd" http://localhost:3000 --output=json --output-path=./lighthouse-run-3.json --chrome-path="C:/Program Files/Google/Chrome/Application/chrome.exe" --chrome-flags="--headless --disable-gpu --no-sandbox" --preset=desktop'
+
+    # Sélection de la médiane
+    - 'node ../scripts/select-lighthouse-median.js ./lighthouse-run-1.json ./lighthouse-run-2.json ./lighthouse-run-3.json'
+
+    # Rapport HTML
+    - '& "C:\Users\fenosoa\AppData\Roaming\npm\lighthouse.cmd" http://localhost:3000 --output=html --output-path=./lighthouse-report.html --chrome-path="C:/Program Files/Google/Chrome/Application/chrome.exe" --chrome-flags="--headless --disable-gpu --no-sandbox" --preset=desktop'
+
+    # Seuil Performance >= 90
+    - 'node ../scripts/check-lighthouse-score.js ./lighthouse-report.json'
+
+    # Arrêt propre du serveur Next.js
+    - |
+      $pidFile = "$env:CI_PROJECT_DIR\next-server.pid"
+      if (Test-Path $pidFile) {
+        $serverPid = Get-Content $pidFile
+        Stop-Process -Id $serverPid -Force -ErrorAction SilentlyContinue
+        Remove-Item $pidFile -Force -ErrorAction SilentlyContinue
+      }
+
+  after_script:
+    - |
+      $pidFile = "$env:CI_PROJECT_DIR\next-server.pid"
+      if (Test-Path $pidFile) {
+        $serverPid = Get-Content $pidFile
+        Stop-Process -Id $serverPid -Force -ErrorAction SilentlyContinue
+        Remove-Item $pidFile -Force -ErrorAction SilentlyContinue
+      }
+
   artifacts:
     when: always
     paths:
@@ -82,7 +166,9 @@ lighthouse:
       - frontend/lighthouse-report.html
       - frontend/lighthouse-report.json
     expire_in: 1 week
+
   rules:
+    - if: $CI_COMMIT_BRANCH == "test/self-hosted-runner"
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH == "develop"
     - if: $CI_COMMIT_BRANCH == "main"
@@ -91,28 +177,32 @@ lighthouse:
 
 build-backend:
   stage: build
-  image: docker:24
-  services:
-    - docker:24-dind
+  tags:
+    - self-hosted-windows
   script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - docker build -t "$CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA" ./backend
-    - docker push "$CI_REGISTRY_IMAGE/backend:$CI_COMMIT_SHORT_SHA"
+    - '$docker = "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe"'
+    - '$env:CI_REGISTRY_PASSWORD | & $docker login -u $env:CI_REGISTRY_USER --password-stdin $env:CI_REGISTRY'
+    - '& $docker build -t "$env:CI_REGISTRY_IMAGE/backend:$env:CI_COMMIT_SHORT_SHA" ./backend'
+    - '& $docker push "$env:CI_REGISTRY_IMAGE/backend:$env:CI_COMMIT_SHORT_SHA"'
   rules:
+    - if: $CI_COMMIT_BRANCH == "test/self-hosted-runner"
+      when: always
     - if: $CI_COMMIT_BRANCH == "main"
     - if: $CI_COMMIT_BRANCH == "develop"
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 build-frontend:
   stage: build
-  image: docker:24
-  services:
-    - docker:24-dind
+  tags:
+    - self-hosted-windows
   script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - docker build -t "$CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA" ./frontend
-    - docker push "$CI_REGISTRY_IMAGE/frontend:$CI_COMMIT_SHORT_SHA"
+    - '$docker = "C:\Users\fenosoa\AppData\Local\Programs\DockerDesktop\resources\bin\docker.exe"'
+    - '$env:CI_REGISTRY_PASSWORD | & $docker login -u $env:CI_REGISTRY_USER --password-stdin $env:CI_REGISTRY'
+    - '& $docker build -t "$env:CI_REGISTRY_IMAGE/frontend:$env:CI_COMMIT_SHORT_SHA" ./frontend'
+    - '& $docker push "$env:CI_REGISTRY_IMAGE/frontend:$env:CI_COMMIT_SHORT_SHA"'
   rules:
+    - if: $CI_COMMIT_BRANCH == "test/self-hosted-runner"
+      when: always
     - if: $CI_COMMIT_BRANCH == "main"
     - if: $CI_COMMIT_BRANCH == "develop"
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
