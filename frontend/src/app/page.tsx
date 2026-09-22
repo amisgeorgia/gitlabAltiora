@@ -13,26 +13,24 @@ import { ScrollRevealInit } from "@/components/common/ScrollRevealInit";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#040D21]">
-      {/* ScrollReveal Client Initializer */}
+    <div className="flex min-h-screen flex-col bg-white dark:bg-slate-900 transition-colors duration-300">
       <ScrollRevealInit />
-
-      {/* Header with smart scroll */}
       <Header />
 
-      {/* Main Content */}
-      <main className="flex-1">
+      <main className="flex-1 w-full pt-31 sm:pt-40 lg:pt-42.5">
         <HeroSection />
-        <AboutSection />
-        <WhyChooseUsSection />
-        <FormationsSection />
-        <ExpertisesSection />
-        <TestimonialsSection />
-        <FaqSection />
-        <PartnersSection />
+
+        <div className="w-full">
+          <AboutSection />
+          <WhyChooseUsSection />
+          <FormationsSection />
+          <ExpertisesSection />
+          <TestimonialsSection />
+          <FaqSection />
+          <PartnersSection />
+        </div>
       </main>
 
-      {/* Footer */}
       <Footer />
     </div>
   );

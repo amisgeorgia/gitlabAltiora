@@ -14,10 +14,10 @@ export function AboutHeroSection() {
   ];
 
   return (
-    <section className="relative w-full px-4 sm:px-6 lg:px-8 pt-4 pb-12 sm:pb-16 lg:pb-20">
-      <div className="mx-auto max-w-[1430px]">
+    <section className="relative w-full px-4 sm:px-6 lg:px-8 pt-0">
+      <div className="mx-auto max-w-357.5">
         {/* Large Rounded Hero Container with subtle blue-violet linear gradient */}
-        <div className="relative overflow-hidden rounded-[32px] sm:rounded-[40px] lg:rounded-[48px] bg-gradient-to-br from-[#EFF2FB] via-[#ECEFFA] to-[#F4F1FA] border border-white/80 p-6 sm:p-10 md:p-12 lg:p-16 shadow-[0_20px_50px_rgba(11,31,77,0.05)] sr-fade-up">
+        <div className="relative overflow-hidden rounded-4xl sm:rounded-[40px] lg:rounded-[48px] bg-linear-to-br from-[#EFF2FB] via-[#ECEFFA] to-[#F4F1FA] border border-white/80 p-6 sm:p-10 md:p-12 lg:p-16 shadow-[0_20px_50px_rgba(11,31,77,0.05)] sr-fade-up">
           
           {/* Subtle Ambient Glows */}
           <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-blue-400/10 blur-3xl" />
@@ -66,7 +66,7 @@ export function AboutHeroSection() {
 
             {/* Right Column: Hero Image */}
             <div className="lg:col-span-6 xl:col-span-5 w-full sr-fade-right">
-              <div className="relative w-full aspect-[4/3] sm:aspect-[16/11] lg:aspect-[1.3/1] rounded-[24px] sm:rounded-[32px] overflow-hidden shadow-2xl shadow-slate-900/10 border border-white/50">
+              <div className="relative w-full aspect-4/3 sm:aspect-16/11 lg:aspect-[1.3/1] rounded-3xl sm:rounded-4xl overflow-hidden shadow-2xl shadow-slate-900/10 border border-white/50">
                 <Image
                   src="/images/apropos2.webp"
                   alt="Transformation Digitale - ALTIORA CONNECT"

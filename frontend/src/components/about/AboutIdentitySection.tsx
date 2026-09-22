@@ -23,8 +23,8 @@ export function AboutIdentitySection() {
   ];
 
   return (
-    <section id="vision" className="relative w-full px-4 sm:px-6 lg:px-8 py-14 sm:py-18 lg:py-24 scroll-mt-24">
-      <div className="mx-auto max-w-[1430px]">
+    <section id="vision" className="relative w-full px-4 sm:px-6 lg:px-8 scroll-mt-24">
+      <div className="mx-auto max-w-357.5">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 lg:mb-16 sr-fade-up">
@@ -97,7 +97,7 @@ export function AboutIdentitySection() {
           {values.map((val, idx) => (
             <div
               key={idx}
-              className="rounded-[20px] sm:rounded-[24px] bg-[#EDF2F9] p-6 sm:p-8 transition-all duration-300 hover:bg-[#E6EEF8] hover:-translate-y-1 sr-stagger"
+              className="rounded-[20px] sm:rounded-3xl bg-[#EDF2F9] p-6 sm:p-8 transition-all duration-300 hover:bg-[#E6EEF8] hover:-translate-y-1 sr-stagger"
             >
               <h4 className="text-xl sm:text-2xl font-bold text-[#0B1F4D] tracking-tight">
                 {val.title}

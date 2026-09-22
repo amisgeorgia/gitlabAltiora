@@ -18,18 +18,16 @@ export default function ActualitesPage() {
   const gridArticles = articlesList.slice(1, 7);
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-900 transition-colors duration-300 pb-10">
+    // <div className="dark:bg-slate-900 transition-colors duration-300 pb-10 space-y-8 sm:space-y-12">
+    <main className="w-full pt-10 sm:pt-14 lg:pt-16 dark:bg-slate-900 transition-colors duration-300 pb-10 space-y-8 sm:space-y-12">
       <HeroSection />
-
-      <div className="container mx-auto px-4 sm:px-8 max-w-7xl">
-        <FilterBar />
-        <FeaturedArticle article={featuredArticle} />
-        <ArticleGrid articles={gridArticles} />
-        <Pagination />
-      </div>
-
+      <FilterBar />
+      <FeaturedArticle article={featuredArticle} />
+      <ArticleGrid articles={gridArticles} />
+      <Pagination />
       <NewsletterSection />
       <CtaSection />
-    </div>
+    </main>
+    // </div>
   );
 }

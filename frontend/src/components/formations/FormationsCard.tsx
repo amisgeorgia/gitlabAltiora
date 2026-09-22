@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Clock, BarChart2, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { Clock, BarChart2 } from "lucide-react";
+import { motion, Variants } from "framer-motion";
 import { ImageSlider } from "@/components/common/ImageSlider";
 
 export interface Formation {
@@ -20,43 +20,54 @@ interface FormationCardProps {
   formation: Formation;
 }
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
 };
 
 export function FormationCard({ formation }: FormationCardProps) {
   return (
-    <motion.div variants={itemVariants} className="h-full">
-      <Link href={`/formations/${formation.id}`} className="group bg-transparent rounded-3xl overflow-hidden transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
-        <div className="relative h-48 sm:h-52 overflow-hidden rounded-3xl mb-4 shadow-sm group-hover:shadow-lg transition-shadow">
+    <motion.div
+      variants={itemVariants}
+      className="bg-white/90 backdrop-blur-xs rounded-3xl overflow-hidden border border-white/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1.5 h-full"
+    >
+      <Link href={`/formations/${formation.id}`} className="flex flex-col h-full">
+        {/* Slider d'images en haut de carte */}
+        <div className="relative h-48 sm:h-52 overflow-hidden">
           <ImageSlider images={formation.images} alt={formation.title} interval={5000} />
         </div>
 
-        <div className="flex-1 flex flex-col px-1">
-          <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400 mb-3 font-medium">
+        {/* Contenu principal de la carte */}
+        <div className="p-6 flex flex-col flex-1">
+          {/* Métadonnées : Durée & Niveau */}
+          <div className="flex items-center justify-between text-xs sm:text-sm text-slate-500 mb-3 font-medium">
             <div className="flex items-center gap-1.5">
-              <Clock className="h-4 w-4 text-slate-400" /> {formation.duration}
+              <Clock className="h-4 w-4 text-[#C59B27]" />
+              <span>{formation.duration}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <BarChart2 className="h-4 w-4 text-slate-400" /> {formation.level}
+              <BarChart2 className="h-4 w-4 text-[#C59B27]" />
+              <span>{formation.level}</span>
             </div>
           </div>
 
-          <h2 className="text-xl font-bold text-blue-950 dark:text-white mb-3 line-clamp-2 leading-tight group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-colors">
+          {/* Titre */}
+          <h3 className="text-xl font-bold text-[#0B1F4D] mb-2 group-hover:text-[#C59B27] transition-colors line-clamp-2 leading-tight">
             {formation.title}
-          </h2>
+          </h3>
 
-          <p className="text-slate-600 dark:text-slate-400 mb-6 flex-1 text-sm leading-relaxed line-clamp-3">
+          {/* Résumé / Description */}
+          <p className="text-slate-600 mb-5 text-sm leading-relaxed line-clamp-3 flex-1">
             {formation.summary}
           </p>
 
-          <div className="flex items-center justify-between pt-5 border-t border-slate-200 dark:border-slate-800 mt-auto">
-            <span className="text-lg font-bold text-slate-800 dark:text-slate-200">
+          {/* Footer de la carte : Prix + Bouton Action */}
+          <div className="flex items-center justify-between pt-4 border-t border-slate-200/80 mt-auto gap-4">
+            <span className="text-lg font-extrabold text-[#0B1F4D]">
               {formation.price}
             </span>
-            <div className="w-10 h-10 rounded-lg bg-gold-500 text-white flex items-center justify-center group-hover:bg-gold-600 transition-colors shadow-md">
-              <ArrowRight className="h-5 w-5" />
+            <div className="px-5 py-2.5 text-sm bg-[#0B1F4D] text-white font-bold rounded-full group-hover:bg-[#C59B27] transition-all duration-300 shadow-sm shrink-0">
+              Voir la formation
             </div>
           </div>
         </div>

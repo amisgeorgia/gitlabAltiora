@@ -23,17 +23,19 @@ export default function FormationSlugPage({ params }: PageProps) {
   }
 
   return (
-    <div className="bg-white dark:bg-slate-900 pb-16 transition-colors duration-300">
+    <main className="w-full pt-10 sm:pt-14 lg:pt-16 bg-white dark:bg-slate-900 pb-16 transition-colors duration-300">
       <FormationHeader formation={formation} />
 
-      <div className="container mx-auto px-4 sm:px-8 max-w-4xl mt-16 grid grid-cols-1 md:grid-cols-3 gap-12">
-        <div className="md:col-span-2">
-          <FormationContent formation={formation} />
+      <section className="w-full px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12">
+        <div className="mx-auto max-w-357.5 grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="lg:col-span-2">
+            <FormationContent formation={formation} />
+          </div>
+          <div className="lg:col-span-1">
+            <FormationSidebar />
+          </div>
         </div>
-        <div className="md:col-span-1">
-          <FormationSidebar />
-        </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

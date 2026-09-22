@@ -14,15 +14,16 @@ export function AboutSection() {
   ];
 
   return (
-    <section className="relative w-full bg-white py-16 sm:py-20 lg:py-24 overflow-hidden">
-      <div className="mx-auto max-w-[1380px] px-4 sm:px-6 lg:px-8">
+    <section className="relative w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
+      {/* Wrapper aligné sur la même largeur max-w-357.5 */}
+      <div className="mx-auto max-w-357.5">
         
         {/* Top 2-Columns Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-16 items-center">
           
           {/* Left Column: Image Card */}
           <div className="lg:col-span-6 w-full sr-fade-left">
-            <div className="relative w-full h-[360px] sm:h-[450px] lg:h-[500px] rounded-[24px] sm:rounded-[32px] overflow-hidden shadow-xl shadow-slate-900/5 bg-slate-950">
+            <div className="relative w-full aspect-4/3 lg:h-125 rounded-3xl sm:rounded-4xl overflow-hidden shadow-xl shadow-slate-900/5 bg-slate-950">
               <Image
                 src="/images/apropos.webp"
                 alt="À propos de nous - Altiora Connect"
@@ -78,7 +79,7 @@ export function AboutSection() {
 
         </div>
 
-        {/* Bottom Row: 4 Key Metrics / Statistics with Grey '+' & Labels */}
+        {/* Bottom Row: 4 Key Metrics / Statistics */}
         <div className="mt-16 sm:mt-20 lg:mt-24 pt-10 sm:pt-14 border-t border-slate-100/80">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6 lg:gap-0 items-center justify-center">
             {stats.map((stat, index) => (

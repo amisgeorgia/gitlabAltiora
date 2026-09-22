@@ -17,37 +17,32 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="w-full min-h-screen bg-white">
-      {/* ScrollReveal Client Initializer */}
       <ScrollRevealInit />
 
-      {/* Hero Section */}
-      <AboutHeroSection />
+      <main className="flex flex-col gap-16 md:gap-24 pt-10 sm:pt-14 lg:pt-16 pb-16 md:pb-24">
+        <AboutHeroSection />
 
-      {/* Identity Section: Mission, Vision & Values */}
-      <AboutIdentitySection />
+        <AboutIdentitySection />
 
-      {/* Methodology Section: 4 Interactive Step Cards */}
-      <AboutMethodologySection />
+        <AboutMethodologySection />
+        
+        <AboutTeamSection />
 
-      {/* Team Section: Expanding Interactive Gallery */}
-      <AboutTeamSection />
+        <TestimonialsSection />
 
-      {/* Client Reviews / Testimonials Section */}
-      <TestimonialsSection />
-
-      {/* Call to Action Banner (Reusable) */}
-      <CtaBanner
-        title="Prêt à transformer votre entreprise ?"
-        description="Contactez nos experts dès aujourd'hui pour un diagnostic gratuit de vos besoins en transformation digitale."
-        primaryButton={{
-          label: "Prendre rendez-vous",
-          href: "/contact",
-        }}
-        secondaryButton={{
-          label: "Voir nos expertises",
-          href: "/expertises",
-        }}
-      />
+        <CtaBanner
+          title="Prêt à transformer votre entreprise ?"
+          description="Contactez nos experts dès aujourd'hui pour un diagnostic gratuit de vos besoins en transformation digitale."
+          primaryButton={{
+            label: "Prendre rendez-vous",
+            href: "/contact",
+          }}
+          secondaryButton={{
+            label: "Voir nos expertises",
+            href: "/expertises",
+          }}
+        />
+      </main>
     </div>
   );
 }

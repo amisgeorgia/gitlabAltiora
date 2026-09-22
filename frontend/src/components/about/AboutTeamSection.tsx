@@ -41,8 +41,8 @@ export function AboutTeamSection() {
   ];
 
   return (
-    <section className="relative w-full bg-white py-14 sm:py-18 lg:py-24 overflow-hidden">
-      <div className="mx-auto max-w-[1490px] px-4 sm:px-6 lg:px-8">
+    <section className="relative w-full bg-white overflow-hidden">
+      <div className="mx-auto max-w-372.5 px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16 sr-fade-up">
@@ -55,7 +55,7 @@ export function AboutTeamSection() {
         </div>
 
         {/* Interactive Expanding Accordion Gallery */}
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 md:gap-6 h-[720px] sm:h-[480px] md:h-[520px] lg:h-[560px] w-full sr-fade-up">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 md:gap-6 h-180 sm:h-120 md:h-130 lg:h-140 w-full sr-fade-up">
           {team.map((member) => {
             const isActive = activeId === member.id;
 
@@ -64,7 +64,7 @@ export function AboutTeamSection() {
                 key={member.id}
                 onMouseEnter={() => setActiveId(member.id)}
                 onClick={() => setActiveId(member.id)}
-                className={`relative cursor-pointer overflow-hidden rounded-[24px] sm:rounded-[32px] md:rounded-[36px] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+                className={`relative cursor-pointer overflow-hidden rounded-3xl sm:rounded-4xl md:rounded-[36px] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
                   isActive
                     ? "flex-[3.5] sm:flex-[2.8] md:flex-[3.2] shadow-2xl shadow-slate-900/20 ring-2 ring-[#C59B27]/40"
                     : "flex-1 shadow-md shadow-slate-900/5 hover:scale-[1.01]"

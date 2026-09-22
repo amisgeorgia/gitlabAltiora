@@ -64,8 +64,9 @@ export function PartnersSection() {
   ];
 
   return (
-    <section className="relative w-full bg-white py-14 sm:py-16 lg:py-20 overflow-hidden">
-      <div className="mx-auto max-w-[1380px] px-4 sm:px-6 lg:px-8">
+    <section className="relative w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
+      {/* Wrapper aligné sur la largeur globale max-w-357.5 */}
+      <div className="mx-auto max-w-357.5">
         
         {/* Header Label: Bullet + "Partenaires actifs" */}
         <div className="flex items-center gap-2.5 mb-8 sm:mb-10 sr-header">
@@ -80,7 +81,7 @@ export function PartnersSection() {
           {partners.map((partner) => (
             <div
               key={partner.id}
-              className={`h-[160px] sm:h-[180px] lg:h-[190px] rounded-[22px] sm:rounded-[26px] flex items-center justify-center p-6 transition-all duration-300 hover:scale-[1.02] cursor-pointer sr-scale ${
+              className={`h-40 sm:h-45 lg:h-47.5 rounded-[22px] sm:rounded-[26px] flex items-center justify-center p-6 transition-all duration-300 hover:scale-[1.02] cursor-pointer sr-scale ${
                 partner.isGold
                   ? "bg-[#D4AF37] hover:bg-[#c9a32c] shadow-sm"
                   : "bg-white border border-slate-200/80 hover:border-slate-300 shadow-xs"

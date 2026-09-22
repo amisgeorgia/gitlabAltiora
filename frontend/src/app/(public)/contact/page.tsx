@@ -12,5 +12,9 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
-  return <ContactClient />;
+  return (
+    <main className="w-full pt-10 sm:pt-14 lg:pt-16">
+      <ContactClient />
+    </main>
+  );
 }

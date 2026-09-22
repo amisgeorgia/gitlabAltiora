@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-return {
+  return {
     title: article.title,
     description: article.excerpt,
   };
@@ -44,13 +44,18 @@ export default async function ArticleSlugPage({ params }: PageProps) {
   }
 
   return (
-    <article className="bg-white dark:bg-slate-900 pb-24 transition-colors duration-300">
-      <ArticleHero article={article} />
+    <main className="w-full pt-10 sm:pt-14 lg:pt-16 dark:bg-slate-900 transition-colors duration-300">
+      <article className="bg-white dark:bg-slate-900 pb-24 transition-colors duration-300">
+        <ArticleHero article={article} />
 
-      <div className="container mx-auto px-4 sm:px-8 max-w-4xl mt-16 flex flex-col md:flex-row gap-12">
-        <ShareSidebar />
-        <ArticleContent article={article} />
-      </div>
-    </article>
+        {/* Conteneur élargi à max-w-357.5 */}
+        <section className="w-full px-4 sm:px-6 lg:px-8 mt-12 sm:mt-16">
+          <div className="mx-auto max-w-357.5 flex flex-col md:flex-row gap-8 lg:gap-12">
+            <ShareSidebar />
+            <ArticleContent article={article} />
+          </div>
+        </section>
+      </article>
+    </main>
   );
 }

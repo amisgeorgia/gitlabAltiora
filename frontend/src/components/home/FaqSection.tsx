@@ -40,11 +40,11 @@ export function FaqSection() {
   };
 
   return (
-    <section className="relative w-full bg-[#0B1F4D] py-16 sm:py-20 lg:py-24 text-white overflow-hidden">
-      <div className="mx-auto max-w-[1360px] px-4 sm:px-6 lg:px-8">
+    <section className="relative w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16 text-white overflow-hidden">
+      
+      <div className="mx-auto max-w-357.5 bg-[#0B1F4D] rounded-3xl sm:rounded-[40px] lg:rounded-[48px] p-6 sm:p-10 lg:p-16 shadow-xl">
         
-        {/* Section Title with "fréquentes" in brand-gold */}
-        <div className="text-center mb-12 sm:mb-16 sr-header">
+        <div className="text-center mb-10 sm:mb-14 sr-header">
           <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-white">
             Questions <span className="text-brand-gold">fréquentes</span>
           </h2>
@@ -86,7 +86,7 @@ export function FaqSection() {
 
                 {/* Answer Content */}
                 {isOpen && (
-                  <div className="mt-3.5 sm:mt-4 pr-8 sm:pr-12 animate-fadeIn">
+                  <div className="mt-3.5 sm:mt-4 pr-6 sm:pr-12 animate-fadeIn">
                     <p className="text-sm sm:text-base text-slate-200/90 leading-relaxed font-normal">
                       {item.answer}
                     </p>

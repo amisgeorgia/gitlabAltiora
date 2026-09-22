@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 
 
 import { ExpertisesHeroSection } from "@/components/expertises/ExpertisesHeroSection";
@@ -11,11 +11,11 @@ import { CTASection } from "@/components/expertises/CTASection";
 
 export default function ExpertisesPage() {
 return (
-    <main className="min-h-screen">
+    <main className="w-full pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 space-y-4 sm:space-y-6 lg:space-y-8 min-h-screen">
       <ExpertisesHeroSection />
       <ExpertisesGridSection />
       <ExpertisesMethodologySection />
-      <section className="bg-slate-50 dark:bg-slate-900 py-12 px-4 transition-colors duration-300">
+      <section className="dark:bg-slate-900 py-6 sm:py-8 px-4 transition-colors duration-300">
         <WhyTrustUsSection />
         <TestimonialsSection />
       </section>

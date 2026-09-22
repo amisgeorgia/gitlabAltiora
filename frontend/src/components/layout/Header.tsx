@@ -9,7 +9,6 @@ import { ThemeToggle } from "../common/ThemeToggle";
 import { LanguageToggle } from "../common/LanguageToggle";
 import { Button } from "../ui/Button";
 
-
 export function Header() {
   const pathname = usePathname();
   const { t } = useLanguage();
@@ -20,7 +19,6 @@ export function Header() {
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
 
-  // Configuration des liens de navigation avec traduction dynamiques
   const navLinks = [
     { href: "/a-propos", label: t("nav.about") },
     { href: "/expertises", label: t("nav.expertises") },
@@ -35,7 +33,6 @@ export function Header() {
     setMobileMenuOpen(false);
   }
 
-  // 2. Fermer le menu mobile lors d'un clic à l'extérieur du header
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (
@@ -56,22 +53,18 @@ export function Header() {
     };
   }, [mobileMenuOpen]);
 
-  // 3. Gestion du masquage/affichage au scroll (Auto-hide)
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Détecter si on a défilé vers le bas
       setIsScrolled(currentScrollY > 20);
 
-      // Si le menu mobile est ouvert, on garde le header toujours visible
       if (mobileMenuOpen) {
         setIsVisible(true);
         lastScrollY.current = currentScrollY;
         return;
       }
 
-      // Masquer au scroll vers le bas, réafficher au scroll vers le haut
       if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
         setIsVisible(false);
       } else {
@@ -88,22 +81,21 @@ export function Header() {
   return (
     <header
       ref={headerRef}
-      className={`fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-6 lg:px-8 pt-3 sm:pt-6 pb-2 transition-all duration-300 ease-in-out ${
+      className={`fixed top-0 left-0 right-0 z-50 w-full px-3 sm:px-6 lg:px-8 pt-3 sm:pt-6 lg:pt-8 transition-all duration-300 ease-in-out ${
         isVisible || mobileMenuOpen
           ? "translate-y-0 opacity-100 pointer-events-auto"
           : "-translate-y-full opacity-0 pointer-events-none"
       }`}
     >
-      <div className="mx-auto max-w-7xl">
-        {/* Navigation principale en Capsule */}
+      <div className="mx-auto max-w-357.5">
         <div
-          className={`relative flex items-center justify-between bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-full border border-slate-100/90 dark:border-slate-800/80 px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 transition-all duration-300 ${
+          className={`relative flex items-center justify-between bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-full border border-gold-500/40 dark:border-gold-500/30 px-4 sm:px-6 lg:px-8 py-2 sm:py-3 transition-all duration-300 ${
             isScrolled
-              ? "shadow-md shadow-slate-900/5 dark:shadow-slate-950/50"
+              ? "shadow-md shadow-slate-900/5 dark:shadow-slate-950/50 border-gold-500/60 dark:border-gold-500/50"
               : "shadow-sm"
           }`}
         >
-          {/* Logo ALTIORA PREST */}
+          {/* Logo ALTIORA PREST (Taille augmentée encore plus) */}
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
@@ -113,15 +105,14 @@ export function Header() {
             <Image
               src="/images/logo.png"
               alt="Logo ALTIORA PREST"
-              width={190}
-              height={60}
+              width={300}
+              height={100}
               priority
-              className="h-10 sm:h-11 md:h-12 w-auto object-contain"
+              className="h-12 sm:h-14 lg:h-20 w-auto object-contain"
             />
           </Link>
 
-          {/* Nav Links Desktop */}
-          <nav className="hidden md:flex items-center gap-3 lg:gap-6 xl:gap-8 ml-auto mr-4">
+          <nav className="hidden lg:flex items-center gap-2 xl:gap-6 ml-auto mr-2 xl:mr-4">
             {navLinks.map((item) => {
               const isActive = pathname.startsWith(item.href);
 
@@ -129,7 +120,7 @@ export function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`text-sm lg:text-base font-medium transition-colors duration-200 whitespace-nowrap px-2 py-1 rounded-md ${
+                  className={`text-sm xl:text-base font-medium transition-colors duration-200 whitespace-nowrap px-1.5 py-1 rounded-md ${
                     isActive
                       ? "text-gold-600 dark:text-gold-400 font-semibold"
                       : "text-slate-800 dark:text-slate-200 hover:text-gold-600 dark:hover:text-gold-400"
@@ -141,22 +132,24 @@ export function Header() {
             })}
           </nav>
 
-          {/* Commandes Droite : Changement de langue, Thème Dark/Light & Bouton de connexion */}
-          <div className="flex items-center space-x-1 sm:space-x-2">
-            <LanguageToggle />
-            <ThemeToggle />
+          <div className="flex items-center space-x-1 lg:space-x-2 shrink-0">
+            <div className="[&_button]:bg-transparent [&_button]:hover:bg-transparent [&_button]:hover:text-gold-600 dark:[&_button]:hover:text-gold-400 [&_svg]:hover:text-gold-600 dark:[&_svg]:hover:text-gold-400 transition-colors">
+              <LanguageToggle />
+            </div>
 
-            {/* Bouton Connexion Desktop */}
-            <Link href="/connexion" className="hidden md:inline-flex ml-2">
+            <div className="[&_button]:bg-transparent [&_button]:hover:bg-transparent [&_button]:hover:text-gold-600 dark:[&_button]:hover:text-gold-400 [&_svg]:hover:text-gold-600 dark:[&_svg]:hover:text-gold-400 transition-colors">
+              <ThemeToggle />
+            </div>
+
+            <Link href="/connexion" className="hidden lg:inline-flex ml-1">
               <Button
                 variant="outline"
-                className="rounded-full text-blue-950 dark:text-white border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-800 font-semibold shadow-sm"
+                className="rounded-full text-slate-800 dark:text-slate-200 border-gold-500/50 dark:border-gold-500/40 bg-transparent hover:bg-gold-500/10 hover:text-gold-600 dark:hover:text-gold-400 hover:border-gold-500 font-semibold shadow-sm transition-colors duration-200 text-sm px-4"
               >
                 {t("nav.login")}
               </Button>
             </Link>
 
-            {/* Bouton Menu Hamburger Mobile */}
             <button
               type="button"
               onClick={(e) => {
@@ -165,7 +158,7 @@ export function Header() {
               }}
               aria-expanded={mobileMenuOpen}
               aria-label="Ouvrir le menu de navigation"
-              className="inline-flex md:hidden items-center justify-center p-2 rounded-full text-slate-800 dark:text-slate-200 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-slate-800 focus:outline-none transition-all duration-200 ml-1"
+              className="inline-flex lg:hidden items-center justify-center p-2 rounded-full text-slate-800 dark:text-slate-200 hover:text-gold-600 dark:hover:text-gold-400 focus:outline-none transition-all duration-200"
             >
               <div
                 className={`transition-transform duration-300 ease-out ${
@@ -206,15 +199,14 @@ export function Header() {
           </div>
         </div>
 
-        {/* Menu Déroulant Mobile */}
         <div
-          className={`md:hidden mt-2.5 transition-all duration-300 ease-out origin-top ${
+          className={`lg:hidden mt-2.5 transition-all duration-300 ease-out origin-top ${
             mobileMenuOpen
               ? "opacity-100 translate-y-0 pointer-events-auto block"
               : "opacity-0 -translate-y-2 pointer-events-none hidden"
           }`}
         >
-          <div className="rounded-2xl bg-white/98 dark:bg-slate-900/98 backdrop-blur-lg p-5 border border-slate-200/90 dark:border-slate-800 shadow-2xl shadow-slate-900/15">
+          <div className="rounded-2xl bg-white/98 dark:bg-slate-900/98 backdrop-blur-lg p-5 border border-gold-500/40 dark:border-gold-500/30 shadow-2xl shadow-slate-900/15">
             <nav className="flex flex-col gap-1.5">
               {navLinks.map((item) => {
                 const isActive = pathname.startsWith(item.href);

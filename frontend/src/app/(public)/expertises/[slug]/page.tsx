@@ -11,7 +11,6 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Génération dynamique du SEO (Titre & Description)
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const data = EXPERTISES_DATA[slug];
@@ -24,7 +23,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-// Génération des routes statiques pour de meilleures performances (SSG)
 export async function generateStaticParams() {
   return Object.keys(EXPERTISES_DATA).map((slug) => ({ slug }));
 }
@@ -46,14 +44,14 @@ export default async function ExpertiseSlugPage({ params }: PageProps) {
     );
   }
 
-  return (
-    <div className="bg-white dark:bg-slate-900 transition-colors duration-300">
+return (
+    <main className="w-full pt-10 sm:pt-14 lg:pt-16 bg-white dark:bg-slate-900 transition-colors duration-300 pb-12 sm:pb-16">
       <ExpertiseHeader title={data.title} description={data.description} />
 
-      <div className="container mx-auto px-4 sm:px-8 max-w-4xl py-16">
+      <div className="mx-auto max-w-357.5 px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8 sm:space-y-12">
         <ExpertiseDetails details={data.details} />
         <ExpertiseCTA />
       </div>
-    </div>
+    </main>
   );
 }

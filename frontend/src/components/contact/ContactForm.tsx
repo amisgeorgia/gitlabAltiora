@@ -30,7 +30,7 @@ export function ContactForm() {
       initial={{ opacity: 0, x: 30 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6, delay: 0.4 }}
-      className="lg:col-span-2"
+      className="lg:col-span-2 w-full"
     >
       <div className="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 h-full hover:shadow-xl hover:border-gold-500 dark:hover:border-gold-500 transition-all duration-300">
         <h3 className="text-2xl font-bold text-blue-950 dark:text-white mb-6">

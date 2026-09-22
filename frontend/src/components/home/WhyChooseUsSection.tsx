@@ -51,11 +51,14 @@ const features: FeatureCardProps[] = [
 
 export function WhyChooseUsSection() {
   return (
-    <section className="relative w-full bg-gradient-to-br from-[#FAFBFF] via-[#F8FAFF] to-[#F1F4FD] py-20 sm:py-24 lg:py-28 overflow-hidden">
-      <div className="mx-auto max-w-[1380px] px-4 sm:px-6 lg:px-8">
+    /* La section externe reste transparente sans le dégradé pleined largeur */
+    <section className="relative w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
+      
+      {/* Le dégradé et le fond sont déplacés ICI sur le conteneur limité */}
+      <div className="mx-auto max-w-357.5 bg-linear-to-br from-[#FAFBFF] via-[#F8FAFF] to-[#F1F4FD] rounded-4xl sm:rounded-[40px] lg:rounded-[48px] p-6 sm:p-10 lg:p-14 border border-slate-200/60 shadow-xs">
         
         {/* Section Header */}
-        <div className="text-center max-w-4xl mx-auto mb-14 sm:mb-16 lg:mb-20 sr-header">
+        <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-14 lg:mb-16 sr-header">
           <h2 className="text-2xl sm:text-4xl lg:text-[46px] font-bold tracking-tight text-titres leading-tight">
             Pourquoi choisir <span className="text-brand-gold">Altiora Connect</span>
           </h2>
@@ -72,12 +75,12 @@ export function WhyChooseUsSection() {
               className="group relative flex flex-col items-start bg-white rounded-[20px] p-8 sm:p-10 border border-slate-100/90 shadow-none transition-all duration-300 ease-out hover:-rotate-2 hover:border-primary hover:shadow-none cursor-pointer sr-stagger"
             >
               {/* Icon Container with rounded corners */}
-              <div className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-[#EEF2F9] text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-white shrink-0 mb-8 sm:mb-10">
+              <div className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-[#EEF2F9] text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-white shrink-0 mb-6 sm:mb-8">
                 {feature.icon}
               </div>
 
               {/* Title */}
-              <h3 className="text-xl sm:text-2xl font-bold text-titres tracking-tight mb-4">
+              <h3 className="text-xl sm:text-2xl font-bold text-titres tracking-tight mb-3">
                 {feature.title}
               </h3>
 

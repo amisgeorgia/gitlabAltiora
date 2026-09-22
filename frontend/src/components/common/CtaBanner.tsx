@@ -34,10 +34,10 @@ export function CtaBanner({
   className = "",
 }: CtaBannerProps) {
   return (
-    <section className={`relative w-full px-4 sm:px-6 lg:px-8 py-14 sm:py-18 lg:py-24 ${className}`}>
-      <div className="mx-auto max-w-[1430px]">
+    <section className={`relative w-full px-4 sm:px-6 lg:px-8 ${className}`}>
+      <div className="mx-auto max-w-357.5">
         {/* Large Rounded Card with increased height & courbe.webp background */}
-        <div className="relative min-h-[460px] sm:min-h-[520px] md:min-h-[560px] lg:min-h-[600px] flex flex-col justify-center overflow-hidden rounded-[32px] sm:rounded-[44px] lg:rounded-[56px] bg-[#ECEFF4] border border-white/80 p-8 sm:p-14 md:p-18 lg:p-24 shadow-sm sr-fade-up">
+        <div className="relative min-h-115 sm:min-h-130 md:min-h-140 lg:min-h-150 flex flex-col justify-center overflow-hidden rounded-4xl sm:rounded-[44px] lg:rounded-[56px] bg-[#ECEFF4] border border-white/80 p-8 sm:p-14 md:p-18 lg:p-24 shadow-sm sr-fade-up">
 
           {/* Background Decorative courbe.webp Image with screen blend mode */}
           <div className="pointer-events-none absolute inset-0 select-none">

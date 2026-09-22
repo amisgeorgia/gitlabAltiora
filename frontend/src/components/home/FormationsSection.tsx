@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Info } from "lucide-react";
@@ -66,29 +66,53 @@ const formationsData: FormationItem[] = [
 
 export function FormationsSection() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
 
   const handleScroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 450;
-      scrollContainerRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
+      const scrollAmount = 400;
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+
+      if (direction === "right") {
+        // Si on atteint la fin, retour au début
+        if (scrollLeft + clientWidth >= scrollWidth - 10) {
+          scrollContainerRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+        }
+      } else {
+        // Si on est au début, aller à la fin
+        if (scrollLeft <= 0) {
+          scrollContainerRef.current.scrollTo({ left: scrollWidth, behavior: "smooth" });
+        } else {
+          scrollContainerRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+        }
+      }
     }
   };
 
+  // Défilement automatique
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      handleScroll("right");
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
   return (
-    <section className="relative w-full bg-white py-16 sm:py-20 lg:py-24 overflow-hidden">
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-        {/* Top Header: Badge, Title and Navigation Buttons */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-10 sm:mb-12 sr-header">
+    <section className="relative w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16 overflow-hidden">
+      <div className="mx-auto max-w-357.5">
+        
+        {/* Top Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-8 sm:mb-10 sr-header">
           <div className="flex flex-col items-start gap-3 sm:gap-4 max-w-3xl">
-            {/* Badge "Nos formations" */}
-            <div className="inline-flex items-center rounded-full border border-slate-200 bg-white px-8 py-3 text-base sm:text-lg font-semibold text-slate-800 shadow-sm">
+            <div className="inline-flex items-center rounded-full border border-slate-200 bg-white px-6 py-2 text-base sm:text-lg font-semibold text-slate-800 shadow-sm">
               Nos formations
             </div>
 
-            {/* Title */}
             <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-bold tracking-tight text-primary leading-[1.15]">
               Des formations conçues <br />
               pour{" "}
@@ -98,7 +122,7 @@ export function FormationsSection() {
             </h2>
           </div>
 
-          {/* Navigation Slider Buttons (Desktop/Tablette) */}
+          {/* Navigation Slider Buttons */}
           <div className="hidden md:flex items-center gap-3 self-end">
             <button
               type="button"
@@ -120,11 +144,14 @@ export function FormationsSection() {
           </div>
         </div>
 
-        {/* Carousel / Cards Horizontal Scroll Container */}
-        {/* La gauche reste strictement alignée dans le conteneur, la droite s'étend jusqu'au bord exact de l'écran */}
+        {/* Carousel avec événements de survol pour pause */}
         <div
           ref={scrollContainerRef}
-          className="flex gap-6 sm:gap-8 overflow-x-auto pb-6 pt-2 scroll-smooth snap-x snap-mandatory scrollbar-none mr-[calc(50%-50vw)] pr-[max(1.5rem,calc(50vw-50%))]"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
+          className="flex gap-6 sm:gap-8 overflow-x-auto pb-6 pt-2 scroll-smooth snap-x snap-mandatory scrollbar-none"
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
@@ -134,9 +161,8 @@ export function FormationsSection() {
           {formationsData.map((formation) => (
             <div
               key={formation.id}
-              className="group relative h-[380px] sm:h-[420px] lg:h-[450px] w-[280px] sm:w-[340px] lg:w-[420px] shrink-0 overflow-hidden rounded-[24px] sm:rounded-[30px] bg-slate-900 select-none snap-start shadow-lg transition-transform duration-300 hover:scale-[1.01]"
+              className="group relative h-95 sm:h-105 lg:h-112.5 w-70 sm:w-85 lg:w-105 shrink-0 overflow-hidden rounded-3xl sm:rounded-[30px] bg-slate-900 select-none snap-start shadow-lg transition-transform duration-300 hover:scale-[1.01]"
             >
-              {/* Background Image */}
               <Image
                 src={formation.image}
                 alt={formation.title}
@@ -146,17 +172,13 @@ export function FormationsSection() {
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
 
-              {/* Gradient Overlays for optimal readability */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-transparent to-black/85" />
+              <div className="absolute inset-0 bg-linear-to-b from-black/70 via-transparent to-black/90" />
 
-              {/* Card Content (Top Title + Bottom Description) */}
               <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-8">
-                {/* Title */}
                 <h3 className="text-2xl sm:text-[26px] font-bold text-white tracking-tight leading-snug">
                   {formation.title}
                 </h3>
 
-                {/* Description */}
                 <p className="text-sm sm:text-base text-slate-100/95 font-normal leading-relaxed">
                   {formation.description}
                 </p>
@@ -165,7 +187,7 @@ export function FormationsSection() {
           ))}
         </div>
 
-        {/* Bottom CTA Button "En savoir plus" */}
+        {/* Bottom CTA Button */}
         <div className="mt-8 sm:mt-10 flex justify-start">
           <Link
             href="/formations"
@@ -175,6 +197,7 @@ export function FormationsSection() {
             <Info size={20} strokeWidth={2.5} />
           </Link>
         </div>
+
       </div>
     </section>
   );

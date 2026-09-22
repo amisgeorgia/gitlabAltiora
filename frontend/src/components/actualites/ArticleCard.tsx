@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Calendar, Clock, ArrowRight } from "lucide-react"
-import {motion} from "framer-motion"
-import { Article } from "@/data/articles"
-import { ImageSlider } from "../common/ImageSlider"
+import Link from "next/link";
+import { Calendar, Clock } from "lucide-react";
+import { motion, Variants } from "framer-motion";
+import { Article } from "@/data/articles";
+import { ImageSlider } from "../common/ImageSlider";
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
 };
 
 interface ArticleCardProps {
@@ -17,12 +17,13 @@ interface ArticleCardProps {
 
 export function ArticleCard({ article }: ArticleCardProps) {
   return (
-    <motion.div variants={itemVariants} className="h-full">
-      <Link
-        href={`/actualites/${article.id}`}
-        className="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-xl transition-all duration-300 flex flex-col h-full hover:-translate-y-1"
-      >
-        <div className="relative h-48 overflow-hidden">
+    <motion.div
+      variants={itemVariants}
+      className="bg-white/90 backdrop-blur-xs rounded-3xl overflow-hidden border border-white/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col group hover:-translate-y-1.5 h-full"
+    >
+      <Link href={`/actualites/${article.id}`} className="flex flex-col h-full">
+        {/* Slider d'images en haut de la carte */}
+        <div className="relative h-48 sm:h-52 overflow-hidden">
           <ImageSlider
             images={article.images}
             alt={article.title}
@@ -30,29 +31,33 @@ export function ArticleCard({ article }: ArticleCardProps) {
           />
         </div>
 
-        <div className="p-5 flex-1 flex flex-col">
-          <div className="flex items-center justify-between text-xs font-medium text-slate-500 dark:text-slate-400 mb-3">
-            <div className="flex items-center">
-              <Calendar className="h-3.5 w-3.5 mr-1.5" /> {article.date}
+        {/* Contenu principal */}
+        <div className="p-6 flex flex-col flex-1">
+          {/* Métadonnées : Date & Temps de lecture */}
+          <div className="flex items-center justify-between text-xs sm:text-sm text-slate-500 mb-3 font-medium">
+            <div className="flex items-center gap-1.5">
+              <Calendar className="h-4 w-4 text-[#C59B27]" />
+              <span>{article.date}</span>
             </div>
-            <div className="flex items-center">
-              <Clock className="h-3.5 w-3.5 mr-1.5" /> {article.readTime || "8 min"}
+            <div className="flex items-center gap-1.5">
+              <Clock className="h-4 w-4 text-[#C59B27]" />
+              <span>{article.readTime || "8 min"}</span>
             </div>
           </div>
 
-          <h2 className="text-lg font-bold text-blue-950 dark:text-white mb-2 line-clamp-2 leading-tight group-hover:text-gold-600 dark:group-hover:text-gold-400 transition-colors">
+          {/* Titre */}
+          <h3 className="text-xl font-bold text-[#0B1F4D] mb-2 group-hover:text-[#C59B27] transition-colors line-clamp-2 leading-tight">
             {article.title}
-          </h2>
+          </h3>
 
-          <p className="text-slate-600 dark:text-slate-400 mb-4 flex-1 text-sm leading-snug line-clamp-2">
+          {/* Extrait de l'article */}
+          <p className="text-slate-600 mb-6 text-sm leading-relaxed line-clamp-2 flex-1">
             {article.excerpt}
           </p>
 
-          <div className="mt-auto">
-            <span className="inline-flex items-center px-5 py-2.5 bg-gold-500 text-blue-950 text-sm font-bold rounded-lg group-hover:bg-gold-600 transition-colors">
-              Lire l&apos;article{" "}
-              <ArrowRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
-            </span>
+          {/* Bouton style pilule identique à ExpertisesGridSection */}
+          <div className="w-full py-3 text-sm bg-[#0B1F4D] text-white font-bold rounded-full text-center group-hover:bg-[#C59B27] transition-all duration-300 shadow-sm mt-auto">
+            Lire l'article
           </div>
         </div>
       </Link>
