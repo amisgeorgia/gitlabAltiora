@@ -23,7 +23,7 @@ export function AboutIdentitySection() {
   ];
 
   return (
-    <section id="vision" className="relative w-full px-4 sm:px-6 lg:px-8 scroll-mt-24">
+    <section id="vision" className="relative w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16 scroll-mt-24">
       <div className="mx-auto max-w-357.5">
         
         {/* Section Header */}

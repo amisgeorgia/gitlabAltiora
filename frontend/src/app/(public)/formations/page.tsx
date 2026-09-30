@@ -16,7 +16,7 @@ export default function FormationsPage() {
 
   return (
     <div className="w-full bg-white dark:bg-slate-900 transition-colors duration-300">
-      <main className="w-full pt-10 sm:pt-14 lg:pt-16 flex flex-col pb-16 sm:pb-24">
+      <main className="w-full pt-10 sm:pt-14 lg:pt-16 flex flex-col">
         <FormationsHeroSection />
         <FormationsFilterSection />
         <FormationsGridSection formations={formationsCatalog} />

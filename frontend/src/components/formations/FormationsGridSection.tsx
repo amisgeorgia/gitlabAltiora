@@ -17,10 +17,10 @@ const containerVariants = {
 
 export function FormationsGridSection({ formations }: FormationsGridProps) {
   return (
-    <section className="relative w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+    <section className="relative w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
       <div className="mx-auto max-w-357.5">
         {/* Conteneur arrondi avec fond dégradé */}
-        <div className="relative overflow-hidden rounded-4xl sm:rounded-[40px] lg:rounded-[48px] bg-linear-to-br from-[#EFF2FB] via-[#ECEFFA] to-[#F4F1FA] border border-white/80 p-6 sm:p-10 md:p-12 lg:p-16 shadow-[0_20px_50px_rgba(11,31,77,0.05)]">
+        <div className="relative overflow-hidden rounded-4xl sm:rounded-[40px] lg:rounded-[48px] p-6 sm:p-10 md:p-12 lg:p-16 shadow-[0_20px_50px_rgba(11,31,77,0.05)]">
           
           {/* Halos lumineux d'arrière-plan */}
           <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-blue-400/10 blur-3xl" />
